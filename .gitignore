@@ -4,7 +4,8 @@ php.ini
 index.php
 /config.php
 admin/config.php
-
+.idea/
+storage/
 !index.html
 
 download/
