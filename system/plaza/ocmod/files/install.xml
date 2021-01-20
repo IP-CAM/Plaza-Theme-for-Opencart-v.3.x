@@ -5,12 +5,10 @@
     <version>1.0</version>
     <author>Plaza Theme</author>
 
-    <!-- Menu Left in Admin -->
     <file path="admin/controller/common/column_left.php">
         <operation>
             <search ><![CDATA[$catalog = array();]]></search>
             <add position="before"><![CDATA[
-            // Plaza Engine
             $this->load->language('plaza/engine');
 
             if($this->user->hasPermission('access', 'plaza/engine')) {
