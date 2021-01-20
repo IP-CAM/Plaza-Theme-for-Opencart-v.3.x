@@ -8,9 +8,13 @@ class ModelPlazaEngine extends Model
         $this->model_plaza_modification->setModifications();
     }
 
-     public function setPermission() {
+    public function setPermission() {
+        $this->load->model('user/user_group');
+
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'plaza/engine');
+        $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'plaza/content_builder');
 
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/engine');
+        $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/content_builder');
     }
 }

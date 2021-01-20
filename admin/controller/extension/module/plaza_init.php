@@ -11,8 +11,6 @@ class ControllerExtensionModulePlazaInit extends Controller
 
         $this->document->setTitle($this->language->get('page_title'));
 
-        $this->load->model('setting/setting');
-
         $data['breadcrumbs'] = array();
 
         $data['breadcrumbs'][] = array(
