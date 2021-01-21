@@ -9,16 +9,28 @@
         <operation>
             <search ><![CDATA[$catalog = array();]]></search>
             <add position="before"><![CDATA[
-            $this->load->language('plaza/engine');
+            $this->load->language("plaza/engine");
 
-            if($this->user->hasPermission('access', 'plaza/engine')) {
-                $data['menus'][] = array(
-                    'id'       => 'plaza-dashboard',
-                    'icon'     => 'fa-plaza',
-                    'name'     => $this->language->get('text_plaza_engine'),
-                    'href'     => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true)
+            if($this->user->hasPermission("access", "plaza/engine")) {
+                $data["menus"][] = array(
+                    "id"       => "plaza-dashboard",
+                    "icon"     => "fa-plaza",
+                    "name"     => $this->language->get("text_plaza_engine"),
+                    "href"     => $this->url->link("plaza/engine", "user_token=" . $this->session->data["user_token"], true)
                 );
             }
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/controller/common/header.php">
+        <operation>
+            <search ><![CDATA[public function index() {]]></search>
+            <add position="after"><![CDATA[
+        $this->document->addStyle("view/javascript/jquery/jquery-ui/jquery-ui.min.css");
+        $this->document->addScript("view/javascript/jquery/jquery-ui/jquery-ui.min.js");
+        $this->document->addScript("view/javascript/plaza/engine.js");
+        $this->document->addStyle("view/stylesheet/plaza/engine.css");
             ]]></add>
         </operation>
     </file>

@@ -6,6 +6,9 @@ class ModelPlazaEngine extends Model
 
         $this->load->model('plaza/modification');
         $this->model_plaza_modification->setModifications();
+
+        $this->load->model('plaza/content_builder');
+        $this->model_plaza_content_builder->setup();
     }
 
     public function setPermission() {
@@ -16,5 +19,11 @@ class ModelPlazaEngine extends Model
 
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/engine');
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/content_builder');
+    }
+
+    public function displayMenuFeatures() {
+        $menuItems = array();
+
+
     }
 }

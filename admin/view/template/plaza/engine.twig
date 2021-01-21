@@ -22,6 +22,10 @@
             </div>
             <div class="panel-body">
                 {{ text_plaza_engine }}
+
+                {% for item in menu_items %}
+                    <a href="{{ item.href }}">{{ item.text }}</a>
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -26,7 +26,7 @@ class Widget {
         return $this->settings;
     }
 
-    function render() {
-        echo $this->template;
+    function getTemplate() {
+        return $this->template;
     }
 }
