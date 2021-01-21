@@ -22,8 +22,24 @@ class ModelPlazaEngine extends Model
     }
 
     public function displayMenuFeatures() {
+        $this->load->language('plaza/engine');
+
         $menuItems = array();
 
+        if ($this->user->hasPermission('access', 'plaza/engine')) {
+            $menuItems[] = array(
+                'text' => $this->language->get('text_general'),
+                'href' => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true),
+            );
+        }
 
+        if ($this->user->hasPermission('access', 'plaza/content_builder')) {
+            $menuItems[] = array(
+                'text' => $this->language->get('text_content_builder'),
+                'href' => $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'], true),
+            );
+        }
+
+        return $menuItems;
     }
 }

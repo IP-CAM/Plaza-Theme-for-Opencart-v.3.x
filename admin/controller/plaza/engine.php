@@ -6,6 +6,8 @@ class ControllerPlazaEngine extends Controller
 
         $this->document->setTitle($this->language->get('page_title'));
 
+        $this->load->model('plaza/engine');
+
         $data = array();
 
         $data['breadcrumbs'] = array();
@@ -20,7 +22,7 @@ class ControllerPlazaEngine extends Controller
             'href' => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true)
         );
 
-        $data['menu_items'] = $this->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
 
         $data['menu'][] = array(
             'text' => $this->language->get('text_general'),
@@ -43,25 +45,5 @@ class ControllerPlazaEngine extends Controller
 
     public function import() {
 
-    }
-
-    public function displayMenuFeatures() {
-        $menuItems = array();
-
-        if ($this->user->hasPermission('access', 'plaza/engine')) {
-            $menuItems[] = array(
-                'text' => $this->language->get('text_general'),
-                'href' => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true),
-            );
-        }
-
-        if ($this->user->hasPermission('access', 'plaza/content_builder')) {
-            $menuItems[] = array(
-                'text' => $this->language->get('text_content_builder'),
-                'href' => $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'], true),
-            );
-        }
-
-        return $menuItems;
     }
 }
