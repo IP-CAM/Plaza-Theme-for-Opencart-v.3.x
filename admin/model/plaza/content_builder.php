@@ -9,7 +9,45 @@ class ModelPlazaContentBuilder extends Model
 
     public function getContent($content_id) {}
 
-    public function getContents($data = array()) {}
+    public function getContents($data = array()) {
+        $sql = "SELECT * FROM " . DB_PREFIX . "plaza_content pc LEFT JOIN " . DB_PREFIX . "plaza_content_description pcd ON (pc.content_id = pcd.content_id) WHERE pcd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+
+        $sql .= " GROUP BY pc.content_id";
+
+        $sort_data = array(
+            'pcd.name',
+            'pc.status',
+            'pc.sort_order'
+        );
+
+        if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+            $sql .= " ORDER BY " . $data['sort'];
+        } else {
+            $sql .= " ORDER BY pcd.name";
+        }
+
+        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+            $sql .= " DESC";
+        } else {
+            $sql .= " ASC";
+        }
+
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
+
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
+
+            $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->rows;
+    }
 
     public function getContentDescription($content_id) {}
 

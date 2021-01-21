@@ -36,7 +36,7 @@ class ControllerPlazaContentBuilder extends Controller
         if (isset($this->request->get['sort'])) {
             $sort = $this->request->get['sort'];
         } else {
-            $sort = 'pd.name';
+            $sort = 'pcd.name';
         }
 
         if (isset($this->request->get['order'])) {
@@ -140,9 +140,9 @@ class ControllerPlazaContentBuilder extends Controller
             $url .= '&page=' . $this->request->get['page'];
         }
 
-        $data['sort_name'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.name' . $url, true);
-        $data['sort_status'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . '&sort=p.status' . $url, true);
-        $data['sort_order'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . '&sort=p.sort_order' . $url, true);
+        $data['sort_name'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . '&sort=pcd.name' . $url, true);
+        $data['sort_status'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . '&sort=pc.status' . $url, true);
+        $data['sort_order'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . '&sort=pc.sort_order' . $url, true);
 
         $url = '';
 
