@@ -296,8 +296,127 @@
                         </div>
                     </div>
                 </form>
+
+                <div class="all-modules-container row">
+                    <div class="modules-container">
+                        {% for extension in extensions %}
+                            {% if not extension.modules %}
+                                {% set extension_url = extension.url %}
+                                {% set extension_code = extension.code %}
+                                {% set extension_name = extension.name %}
+                                <div class="col-sm-4">
+                                    <button type="button" onclick="builder.addModule('{{ extension_name }}', '{{ extension_code }}', '{{ extension_url }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
+                                <span>
+                                    {{ extension_name }}
+                                </span>
+                                    </button>
+                                </div>
+                            {% else %}
+                                {% for module in extension.modules %}
+                                    {% set module_url = module.url %}
+                                    {% set module_code = module.code %}
+                                    {% set module_name = module.name %}
+                                    <div class="col-sm-4">
+                                        <button type="button" onclick="builder.addModule('{{ module_name }}', '{{ module_code }}', '{{ module_url }}')" class="btn-choose-module btn btn-default" value="{{ module_code }}">
+                                    <span>
+                                        {{ module_name }}
+                                    </span>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" id="module-row" value="0" />
+                    <input type="hidden" id="module-col" value="0" />
+                    <input type="hidden" id="module-sub-row" value="0" />
+                    <input type="hidden" id="module-sub-col" value="0" />
+                    <div class="modules-btn-group">
+                        <button type="button" class="btn-close btn-default pull-right" onclick="builder.closeAllModules();">Close</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
+
+<input type="hidden" id="text-columns" value="{{ text_columns }}" />
+<input type="hidden" id="text-add-module" value="{{ text_add_module }}" />
+<input type="hidden" id="text-custom-columns" value="{{ text_custom_columns }}" />
+<input type="hidden" id="text-custom-classname" value="{{ text_specified_class }}" />
+<input type="hidden" id="text-number-min-over" value="{{ text_number_min_over }}" />
+<input type="hidden" id="text-number-max-over" value="{{ text_number_max_over }}" />
+<input type="hidden" id="text-add-sub-row" value="{{ text_add_sub_row }}" />
+<input type="hidden" id="text-columns-error-format" value="{{ text_columns_error_format }}" />
+
+<div class="popup-background"></div>
+<div class="popup-loader-img">
+</div>
+<div class="popup-container">
+    <div class="popup-content">
+        <iframe src="" id="module-frame" scrolling="yes"></iframe>
+    </div>
+    <div class="popup-btn-group">
+        <button type="button" class="btn-close btn-default pull-right" onclick="closePopup();">Close</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.toggle.btn').on('click', function () {
+            var ckb_status = parseInt($(this).find('.ckb-switch').val());
+            if(ckb_status == 1) {
+                $(this).find('.ckb-switch').val('0');
+            } else {
+                $(this).find('.ckb-switch').val('1');
+            }
+        });
+    })
+</script>
+<script>
+    $('.btn-insert').click(function () {
+        var row_number = $('.widget-row:last .main-row-pos').val();
+        if(row_number == null) {
+            row_number = 0;
+        } else {
+            row_number++;
+        }
+        builder.drawMainRow(row_number);
+    });
+
+    var module_edit_frame = $('#module-frame');
+
+    function closePopup() {
+        $('.popup-background').hide();
+        $('.popup-loader-img').hide();
+        $('.popup-container').hide();
+        module_edit_frame.attr('src', "");
+    }
+
+    function loadModule(url) {
+        module_edit_frame.attr('src', url);
+        $('.popup-background').show();
+        $('.popup-loader-img').show();
+    }
+
+    module_edit_frame.on('load', function(event) {
+        var current_url = document.getElementById("module-frame").contentWindow.location.href;
+
+        if(module_edit_frame.attr('src') != "" && current_url.search('route=extension/module') > -1) {
+            module_edit_frame.contents().find('#header,#content .page-header .breadcrumb,#column-left,#footer').hide();
+            module_edit_frame.contents().find('#column-left + #content').css('margin', '0px');
+            module_edit_frame.contents().find('#content').css('padding', '20px 0 0');
+            $('.popup-container').show();
+        } else {
+            $('.popup-background').hide();
+            $('.popup-loader-img').hide();
+            $('.popup-container').hide();
+        }
+    });
+
+    $('.popup-background').on('click', function(){
+        closePopup();
+        builder.closeAllModules();
+    });
+</script>
 {{ footer }}

@@ -276,7 +276,7 @@ class ControllerPlazaContentBuilder extends Controller
 
         $data['cancel'] = $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . $url, true);
 
-        if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+        if (isset($this->request->get['content_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
             $content_info = $this->model_plaza_content_builder->getContent($this->request->get['content_id']);
         }
 
