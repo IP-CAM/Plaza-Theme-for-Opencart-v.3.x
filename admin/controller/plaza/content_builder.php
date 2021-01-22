@@ -18,24 +18,6 @@ class ControllerPlazaContentBuilder extends Controller
         $this->getList();
     }
 
-    protected function validateForm() {
-        if (!$this->user->hasPermission('modify', 'plaza/content_builder')) {
-            $this->error['warning'] = $this->language->get('error_permission');
-        }
-
-        foreach ($this->request->post['content_description'] as $language_id => $value) {
-            if ((utf8_strlen($value['name']) < 1) || (utf8_strlen($value['name']) > 255)) {
-                $this->error['name'][$language_id] = $this->language->get('error_name');
-            }
-        }
-
-        if ($this->error && !isset($this->error['warning'])) {
-            $this->error['warning'] = $this->language->get('error_warning');
-        }
-
-        return !$this->error;
-    }
-
     public function add() {
         $this->load->language('plaza/engine');
 
@@ -324,5 +306,23 @@ class ControllerPlazaContentBuilder extends Controller
 
     public function getModules() {
 
+    }
+
+    protected function validateForm() {
+        if (!$this->user->hasPermission('modify', 'plaza/content_builder')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
+
+        foreach ($this->request->post['content_description'] as $language_id => $value) {
+            if ((utf8_strlen($value['name']) < 1) || (utf8_strlen($value['name']) > 255)) {
+                $this->error['name'][$language_id] = $this->language->get('error_name');
+            }
+        }
+
+        if ($this->error && !isset($this->error['warning'])) {
+            $this->error['warning'] = $this->language->get('error_warning');
+        }
+
+        return !$this->error;
     }
 }

@@ -2,6 +2,9 @@
 <div id="content">
     <div class="section-plaza-engine">
         <div class="top-menu-bar">
+            <div class="logo">
+                <i class="fa fa-plaza"></i><span>{{ text_plaza_engine }}</span>
+            </div>
             <ul class="menu-items">
                 {% for item in menu_items %}
                     <li><a href="{{ item.href }}">{{ item.text }}</a></li>

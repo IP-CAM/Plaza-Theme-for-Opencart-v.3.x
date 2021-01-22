@@ -4,7 +4,7 @@ class ControllerPlazaEngine extends Controller
     public function index() {
         $this->load->language('plaza/engine');
 
-        $this->document->setTitle($this->language->get('page_title'));
+        $this->document->setTitle($this->language->get('heading_dashboard'));
 
         $this->load->model('plaza/engine');
 
@@ -18,7 +18,7 @@ class ControllerPlazaEngine extends Controller
         );
 
         $data['breadcrumbs'][] = array(
-            'text' => $this->language->get('heading_title'),
+            'text' => $this->language->get('heading_dashboard'),
             'href' => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true)
         );
 

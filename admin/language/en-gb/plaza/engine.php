@@ -1,10 +1,11 @@
 <?php
 // Heading
-$_['heading_title'] = "Plaza Engine Framework";
+$_['heading_dashboard'] = "Plaza Dashboard";
 $_['heading_content_builder'] = "Plaza Content Builder";
 
 // Text
 $_['text_plaza_engine'] = "Plaza Engine";
+$_['text_plaza_framework'] = "Plaza Framework";
 $_['text_content_builder'] = "Content Builder";
 $_['text_general'] = "General";
 $_['text_success'] = "Success: You have modified data!";
@@ -17,6 +18,9 @@ $_['column_action'] = "Action";
 // Tab
 
 // Entry
+$_['entry_name'] = "Name";
+$_['entry_status'] = "Status";
+$_['entry_sort_order'] = "Sort Order";
 
 // Button
 
