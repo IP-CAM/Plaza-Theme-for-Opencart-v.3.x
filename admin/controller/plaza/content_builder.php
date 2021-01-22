@@ -51,7 +51,38 @@ class ControllerPlazaContentBuilder extends Controller
         $this->getForm();
     }
 
-    public function edit() {}
+    public function edit() {
+        $this->load->language('plaza/engine');
+
+        $this->document->setTitle($this->language->get('heading_content_builder'));
+
+        $this->load->model('plaza/engine');
+        $this->load->model('plaza/content_builder');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            $this->model_plaza_content_builder->editContent($this->request->get['content_id'], $this->request->post);
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $url = '';
+
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            $this->response->redirect($this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        }
+
+        $this->getForm();
+    }
 
     public function delete() {}
 
@@ -288,6 +319,9 @@ class ControllerPlazaContentBuilder extends Controller
         }
 
         $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+
+        $this->document->addStyle('view/stylesheet/plaza/content_builder.css');
+        $this->document->addScript('view/javascript/plaza/content_builder.js');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
