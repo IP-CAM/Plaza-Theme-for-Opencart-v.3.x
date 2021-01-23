@@ -25,8 +25,14 @@
     background: #000;
     color: #ff5e00;
 }
-.bar-fixed .logo {
+.top-menu-bar.bar-fixed .logo {
     width: 235px;
+}
+.header-engine.bar-fixed .action-buttons {
+    position: fixed;
+    bottom: 5px;
+    right: 20px;
+    z-index: 100;
 }
 .top-menu-bar .logo span {margin-left: 10px;}
 .section-plaza-engine ul.menu-items {
@@ -41,7 +47,7 @@
     position: relative;
     display: block;
 }
-.section-plaza-engine ul.menu-items li a {padding: 13px;display: block;font-size: 15px;font-weight: bold;color: #FFF;background: #e3503e;width:150px;}
+.section-plaza-engine ul.menu-items li a {padding: 13px;display: block;font-size: 15px;font-weight: bold;color: #FFF;background: #e3503e;}
 .section-plaza-engine ul.menu-items li a.active, .section-plaza-engine ul.menu-items li a:hover {background: #901000;}
 .header-engine {
     display: block;

@@ -225,6 +225,9 @@ class ControllerPlazaContentBuilder extends Controller
 
         $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
 
+        $this->document->addStyle('view/stylesheet/plaza/engine.css');
+        $this->document->addScript('view/javascript/plaza/engine.js');
+
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
@@ -310,17 +313,24 @@ class ControllerPlazaContentBuilder extends Controller
             $data['sort_order'] = 0;
         }
 
-        if (isset($this->request->post['setting'])) {
-            $data['setting'] = $this->request->post['setting'];
+        if (isset($this->request->post['elements'])) {
+            $data['elements'] = $this->request->post['elements'];
         } elseif (!empty($content_info)) {
-            $data['setting'] = $content_info['setting'];
+            $data['elements'] = unserialize($content_info['elements']);
         } else {
-            $data['setting'] = array();
+            $data['elements'] = array();
         }
 
         $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
 
+        $data['extensions'] = $this->getExtensions();
+
+        $this->document->addStyle('view/javascript/jquery/jquery-ui/jquery-ui.min.css');
+        $this->document->addStyle('view/stylesheet/plaza/engine.css');
         $this->document->addStyle('view/stylesheet/plaza/content_builder.css');
+
+        $this->document->addScript('view/javascript/jquery/jquery-ui/jquery-ui.min.js');
+        $this->document->addScript('view/javascript/plaza/engine.js');
         $this->document->addScript('view/javascript/plaza/content_builder.js');
 
         $data['header'] = $this->load->controller('common/header');
@@ -338,8 +348,42 @@ class ControllerPlazaContentBuilder extends Controller
         return $widgets;
     }
 
-    public function getModules() {
+    public function getExtensions() {
+        $this->load->model('setting/extension');
+        $this->load->model('setting/module');
+        $allExtensions = array();
+        // Get a list of installed modules
+        $extensions = $this->model_setting_extension->getInstalled('module');
 
+        // Add all the modules which have multiple settings for each module
+        foreach ($extensions as $code) {
+            $this->load->language('extension/module/' . $code);
+
+            $module_data = array();
+
+            $modules = $this->model_setting_module->getModulesByCode($code);
+
+            foreach ($modules as $module) {
+                $module_data[] = array(
+                    'name' => strip_tags($this->language->get('heading_title') . ' &gt; ' . $module['name']),
+                    'code' => $code . '.' .  $module['module_id'],
+                    'url'	=> $this->url->link('extension/module/' . $code, 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $module['module_id'], true)
+                );
+            }
+
+            if ($this->config->has('module_' . $code . '_status') || $module_data) {
+                $allExtensions[] = array(
+                    'name'   => strip_tags($this->language->get('heading_title')),
+                    'code'   => $code,
+                    'url'	 => $this->url->link('extension/module/' . $code, 'user_token=' . $this->session->data['user_token'], true),
+                    'modules' => $module_data
+                );
+            }
+        }
+
+        $this->load->language('plaza/engine');
+
+        return $allExtensions;
     }
 
     protected function validateForm() {

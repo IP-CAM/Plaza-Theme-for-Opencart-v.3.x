@@ -1,5 +1,5 @@
-.widget-container { margin-top: 20px; display: block; }
-.widget-container > .ui-state-highlight {
+.elements-container { margin-top: 20px; display: block; }
+.elements-container > .ui-state-highlight {
     float: left;
     display: block;
     padding: 10px;
@@ -9,11 +9,11 @@
     background: url(../../image/bg/pattern.png) repeat;
     border: 0;
 }
-.widget-info-group {display: block;text-align: center;margin-top: 5px;}
-.widget-info-group .btn-insert,
-.widget-info-group .btn-insert:active,
-.widget-info-group .btn-insert:focus,
-.widget-info-group .btn-insert:visited {
+.elements-info-group {display: block;text-align: center;margin-top: 5px;}
+.elements-info-group .btn-insert,
+.elements-info-group .btn-insert:active,
+.elements-info-group .btn-insert:focus,
+.elements-info-group .btn-insert:visited {
     background: #fff;
     border: 1px dashed #45628a;
     padding: 10px;
@@ -23,12 +23,12 @@
     border-radius: 0;
     width: 100%;
 }
-.widget-info-group .btn-insert:hover {
+.elements-info-group .btn-insert:hover {
     color: #385377;
     border-color: #385377;
 }
-.widget-info-group .btn-insert span { margin-left: 5px; }
-.widget-row {
+.elements-info-group .btn-insert span { margin-left: 5px; }
+.elements-row {
     display: block;
     float: left;
     margin: 10px 0;
@@ -38,7 +38,7 @@
     cursor: -moz-grab;
     cursor: -webkit-grab;
 }
-.widget-row:active {
+.elements-row:active {
     /*cursor: grabbing;*/
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;

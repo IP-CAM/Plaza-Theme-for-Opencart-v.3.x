@@ -2,7 +2,7 @@
 class ModelPlazaContentBuilder extends Model
 {
     public function addContent($data) {
-        $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "', setting = '" . $this->db->escape($data['setting']) . "'");
+        $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "', elements = '" . $this->db->escape($data['elements']) . "'");
 
         $content_id = $this->db->getLastId();
 
@@ -16,7 +16,7 @@ class ModelPlazaContentBuilder extends Model
     }
 
     public function editContent($content_id, $data) {
-        $this->db->query("UPDATE " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "' WHERE content_id = '" . (int)$content_id . "'");
+        $this->db->query("UPDATE " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', elements = '" . $this->db->escape(serialize($data['elements'])) . "' WHERE content_id = '" . (int)$content_id . "'");
 
         $this->db->query("DELETE FROM " . DB_PREFIX . "plaza_content_description WHERE content_id = '" . (int)$content_id . "'");
 
@@ -110,7 +110,7 @@ class ModelPlazaContentBuilder extends Model
 			    `content_id` INT(11) NOT NULL AUTO_INCREMENT,
 	            `sort_order` INT(11) NOT NULL DEFAULT '0',
 	            `status` TINYINT(1) NOT NULL DEFAULT '0',
-	            `setting` text NOT NULL DEFAULT '',
+	            `elements` text NOT NULL DEFAULT '',
 	        PRIMARY KEY (`content_id`)
 		) DEFAULT COLLATE=utf8_general_ci;");
 

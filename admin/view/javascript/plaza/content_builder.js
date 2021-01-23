@@ -11,7 +11,7 @@ var builder = {
             items: '.moveable',
             receive: function () {
                 var main_col_pos = $(this).closest('.main-column').find('.main-col-pos').val();
-                var main_row_pos = $(this).closest('.widget-row').find('.main-row-pos').val();
+                var main_row_pos = $(this).closest('.elements-row').find('.main-row-pos').val();
                 var sub_col_pos = $(this).closest('.column-area').find('.sub-col-pos').val();
                 var sub_row_pos = $(this).closest('.sub-row').find('.sub-row-pos').val();
 
@@ -27,7 +27,7 @@ var builder = {
             accept: '.moveable'
         });
 
-        $('.widget-container').sortable({
+        $('.elements-container').sortable({
             placeholder: "ui-state-highlight",
             stop: function () {
                 builder.reArrangeLayout();
@@ -49,7 +49,7 @@ var builder = {
             }
 
             container.closest('.col-count').find('.count').html(column_count);
-            var row_container = container.closest('.widget-row').find('.row-content');
+            var row_container = container.closest('.elements-row').find('.row-content');
             builder.divideMainColumn(column_count, row_container);
         }
 
@@ -92,7 +92,7 @@ var builder = {
                 }
             }
             container.closest('.col-count').find('.count').html(column_count);
-            var row_container = container.closest('.widget-row').find('.row-content');
+            var row_container = container.closest('.elements-row').find('.row-content');
             builder.divideMainColumn(column_count, row_container);
         }
 
@@ -122,7 +122,7 @@ var builder = {
     },
 
     'customMainColumns' : function (container) {
-        var row_container = container.closest('.widget-row').find('.row-content');
+        var row_container = container.closest('.elements-row').find('.row-content');
         builder.setUpMainColumns(row_container);
         builder.triggerDragnDrop();
     },
@@ -194,7 +194,7 @@ var builder = {
     },
 
     'setUpMainColumns' : function (container) {
-        var cols = container.closest('.widget-row').find('.cols-format').val();
+        var cols = container.closest('.elements-row').find('.cols-format').val();
         var text_custom_columns = $('#text-custom-columns').val();
         var columns = prompt(text_custom_columns, cols);
         if(columns !== null) {
@@ -208,7 +208,7 @@ var builder = {
         var count = 0;
         var col_count = 0;
         var isDraw = false;
-        var row_pos = container.closest('.widget-row').find('.main-row-pos').val();
+        var row_pos = container.closest('.elements-row').find('.main-row-pos').val();
         var main_col_pos = container.closest('.main-column').find('.main-col-pos').val();
         var sub_row_pos = container.closest('.sub-row').find('.sub-row-pos').val();
         var text_add_module = $('#text-add-module').val();
@@ -241,7 +241,7 @@ var builder = {
                         html +=                 container.find('.sub-col-' + col_count).html();
                         html += '               </div>';
                         html += '               <input type="hidden" class="sub-col-pos" value="' + col_count + '" />';
-                        html += '               <input type="hidden" class="sub-col-format" name="widget['+ row_pos + '][main_cols]['+ main_col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ col_count +'][format]" value="' + col + '" />';
+                        html += '               <input type="hidden" class="sub-col-format" name="elements['+ row_pos + '][main_cols]['+ main_col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ col_count +'][format]" value="' + col + '" />';
                         html += '           </div>';
                         col_count++;
                     } else {
@@ -254,7 +254,7 @@ var builder = {
                         html += '                   </div>';
                         html += '               </div>';
                         html += '               <input type="hidden" class="sub-col-pos" value="' + col_count + '" />';
-                        html += '               <input type="hidden" class="sub-col-format" name="widget['+ row_pos + '][main_cols]['+ main_col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ col_count +'][format]" value="' + col + '" />';
+                        html += '               <input type="hidden" class="sub-col-format" name="elements['+ row_pos + '][main_cols]['+ main_col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ col_count +'][format]" value="' + col + '" />';
                         html += '           </div>';
                         col_count++;
                     }
@@ -277,7 +277,7 @@ var builder = {
         var count = 0;
         var col_count = 0;
         var isDraw = false;
-        var row_pos = container.closest('.widget-row').find('.main-row-pos').val();
+        var row_pos = container.closest('.elements-row').find('.main-row-pos').val();
         var text_add_module = $('#text-add-module').val();
         var text_add_sub_row = $('#text-add-sub-row').val();
         var text_columns_error_format = $('#text-columns-error-format').val();
@@ -307,7 +307,7 @@ var builder = {
                     if(container.has('.main-col-' + col_count + ' .sub-row').length) {
                         html += '<div class="col-sm-' + col + ' main-column">';
                         html += '   <input type="hidden" class="main-col-pos" value="' + col_count + '" />';
-                        html += '   <input type="hidden" class="main-col-format" value="' + col + '" name="widget['+ row_pos + '][main_cols]['+ col_count +'][format]" />';
+                        html += '   <input type="hidden" class="main-col-format" value="' + col + '" name="elements['+ row_pos + '][main_cols]['+ col_count +'][format]" />';
                         html += '   <div class="main-col-content main-col-' + col_count + '">';
                         html +=     container.find('.main-col-' + col_count).html();
                         html += '   </div>';
@@ -319,7 +319,7 @@ var builder = {
                     } else {
                         html += '<div class="col-sm-' + col + ' main-column">';
                         html += '   <input type="hidden" class="main-col-pos" value="' + col_count + '" />';
-                        html += '   <input type="hidden" class="main-col-format" value="' + col + '" name="widget['+ row_pos + '][main_cols]['+ col_count +'][format]" />';
+                        html += '   <input type="hidden" class="main-col-format" value="' + col + '" name="elements['+ row_pos + '][main_cols]['+ col_count +'][format]" />';
                         html += '   <div class="main-col-content main-col-' + col_count + '">';
                         html += '       <div class="sub-row sub-row-0">';
                         html += '           <div class="sub-row-action">';
@@ -346,7 +346,7 @@ var builder = {
                         html += '                       </div>';
                         html += '                   </div>';
                         html += '                   <input type="hidden" class="sub-col-pos" value="0" />';
-                        html += '                   <input type="hidden" class="sub-col-format" name="widget['+ row_pos + '][main_cols]['+ col_count +'][sub_rows][0][sub_cols][0][format]" value="12" />';
+                        html += '                   <input type="hidden" class="sub-col-format" name="elements['+ row_pos + '][main_cols]['+ col_count +'][sub_rows][0][sub_cols][0][format]" value="12" />';
                         html += '               </div>';
                         html += '           </div>';
                         html += '           <input type="hidden" class="sub-row-pos" value="0" />';
@@ -360,8 +360,8 @@ var builder = {
                     }
                 });
 
-                container.closest('.widget-row').find('.count').html(col_num);
-                container.closest('.widget-row').find('.cols-format').val(cols);
+                container.closest('.elements-row').find('.count').html(col_num);
+                container.closest('.elements-row').find('.cols-format').val(cols);
                 container.html(html);
             } else {
                 alert(text_columns_error_format);
@@ -378,7 +378,7 @@ var builder = {
         var text_custom_columns = $('#text-custom-columns').val();
 
         var main_column_container = element.closest('.main-column');
-        var main_row_pos = element.closest('.widget-row').find('.main-row-pos').val();
+        var main_row_pos = element.closest('.elements-row').find('.main-row-pos').val();
         var main_col_count = main_column_container.find('.main-col-pos').val();
         var sub_row_pos = main_column_container.find('.main-col-'+ main_col_count).find('.sub-row:last .sub-row-pos').val();
         if(sub_row_pos == null) {
@@ -412,7 +412,7 @@ var builder = {
         html += '                   </div>';
         html += '               </div>';
         html += '               <input type="hidden" class="sub-col-pos" value="0" />';
-        html += '               <input type="hidden" class="sub-col-format" name="widget['+ main_row_pos + '][main_cols]['+ main_col_count +'][sub_rows]['+ sub_row_pos +'][sub_cols][0][format]" value="12" />';
+        html += '               <input type="hidden" class="sub-col-format" name="elements['+ main_row_pos + '][main_cols]['+ main_col_count +'][sub_rows]['+ sub_row_pos +'][sub_cols][0][format]" value="12" />';
         html += '           </div>';
         html += '       </div>';
         html += '       <input type="hidden" class="sub-row-pos" value="' + sub_row_pos + '" />';
@@ -428,7 +428,7 @@ var builder = {
         var text_custom_classname = $('#text-custom-classname').val();
         var text_add_sub_row = $('#text-add-sub-row').val();
         var html = "";
-        html += '<div class="widget-row col-sm-12">';
+        html += '<div class="elements-row col-sm-12">';
         html += '   <div class="row-action">';
         html += '       <div class="action-group">';
         html += '           <div class="col-count">';
@@ -437,7 +437,7 @@ var builder = {
         html += '               <a href="javascript:void(0);" onclick="builder.minusMainColumn($(this));" rel="1" class="col-minus"></a>';
         html += '           </div>';
         html += '           <div class="a-group">';
-        html += '               <input type="text" class="form-control input-class-name" name="widget['+ row_number + '][class]" value="" placeholder="'+ text_custom_classname +'" />';
+        html += '               <input type="text" class="form-control input-class-name" name="elements['+ row_number + '][class]" value="" placeholder="'+ text_custom_classname +'" />';
         html += '               <a class="a-column-custom" onclick="builder.customMainColumns($(this));" href="javascript:void(0);" title="' + text_custom_columns + '"></a>';
         html += '               <a class="a-row-delete" onclick="builder.removeRow($(this));" href="javascript:void(0);"></a>';
         html += '           </div>';
@@ -447,7 +447,7 @@ var builder = {
         html += '   <div class="row-content row-'+ row_number +'">' +
             '       <div class="col-sm-12 main-column">' +
             '           <input type="hidden" class="main-col-pos" value="0" />' +
-            '           <input type="hidden" class="main-col-format" name="widget['+ row_number + '][main_cols][0][format]" value="12" />' +
+            '           <input type="hidden" class="main-col-format" name="elements['+ row_number + '][main_cols][0][format]" value="12" />' +
             '           <div class="main-col-content main-col-0">' +
             '               <div class="sub-row sub-row-0">' +
             '                   <div class="sub-row-action">' +
@@ -474,7 +474,7 @@ var builder = {
             '                               </div> ' +
             '                           </div> ' +
             '                           <input type="hidden" class="sub-col-pos" value="0" />' +
-            '                           <input type="hidden" class="sub-col-format" name="widget['+ row_number + '][main_cols][0][sub_rows][0][sub_cols][0][format]" value="12" />' +
+            '                           <input type="hidden" class="sub-col-format" name="elements['+ row_number + '][main_cols][0][sub_rows][0][sub_cols][0][format]" value="12" />' +
             '                       </div> ' +
             '                   </div> ' +
             '                   <input type="hidden" class="sub-row-pos" value="0" />' +
@@ -487,7 +487,7 @@ var builder = {
             '   </div> ' +
             '   <input type="hidden" class="main-row-pos" value="'+ row_number +'" />' +
             '</div>';
-        $('.widget-container').append(html);
+        $('.elements-container').append(html);
         builder.triggerDragnDrop();
     },
 
@@ -497,12 +497,12 @@ var builder = {
     },
 
     'removeRow' : function (container) {
-        container.closest('.widget-row').remove();
+        container.closest('.elements-row').remove();
         builder.reArrangeLayout();
     },
 
     'showAllModules' : function (container) {
-        var row_pos = container.closest('.widget-row').find('.main-row-pos').val();
+        var row_pos = container.closest('.elements-row').find('.main-row-pos').val();
         var sub_row_pos = container.closest('.sub-row').find('.sub-row-pos').val();
         var col_pos = container.closest('.main-column').find('.main-col-pos').val();
         var sub_col_pos = container.closest('.column-area').find('.sub-col-pos').val();
@@ -542,12 +542,12 @@ var builder = {
         html += '	<input type="hidden" class="module-in-main-col" value="' + col_pos +'" />';
         html += '	<input type="hidden" class="module-in-sub-row" value="' + sub_row_pos +'" />';
         html += '	<input type="hidden" class="module-in-sub-col" value="' + sub_col_pos +'" />';
-        html += '	<input type="hidden" class="module-code" name="widget['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][code]" value="' + code +'" />';
-        html += '	<input type="hidden" class="module-name" name="widget['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][name]" value="' + name +'" />';
-        html += '	<input type="hidden" class="module-url" name="widget['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][url]" value="' + url +'" />';
+        html += '	<input type="hidden" class="module-code" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][code]" value="' + code +'" />';
+        html += '	<input type="hidden" class="module-name" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][name]" value="' + name +'" />';
+        html += '	<input type="hidden" class="module-url" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][url]" value="' + url +'" />';
         html +=	'</div>';
 
-        $('.widget-container .row-' + row_pos + ' .main-col-' + col_pos + ' .sub-row-' + sub_row_pos + ' .sub-col-' + sub_col_pos).append(html);
+        $('.elements-container .row-' + row_pos + ' .main-col-' + col_pos + ' .sub-row-' + sub_row_pos + ' .sub-col-' + sub_col_pos).append(html);
         builder.closeAllModules();
         builder.reArrangeLayout();
         builder.triggerDragnDrop();
@@ -562,16 +562,16 @@ var builder = {
 
     'reArrangeLayout' : function () {
         var main_row_pos = 0;
-        $('.widget-container .widget-row').each(function () {
+        $('.elements-container .elements-row').each(function () {
             $(this).find('.main-row-pos').val(main_row_pos);
             $(this).find('.row-content').removeClass().addClass('row-content row-' + main_row_pos);
-            $(this).find('.input-class-name').attr('name', 'widget[' + main_row_pos + '][class]');
+            $(this).find('.input-class-name').attr('name', 'elements[' + main_row_pos + '][class]');
 
             var main_col_pos = 0;
             $(this).find('.main-column').each(function () {
                 $(this).find('.main-col-pos').val(main_col_pos);
                 $(this).find('.main-col-content').removeClass().addClass('main-col-content main-col-' + main_col_pos);
-                $(this).find('.main-col-format').attr('name', 'widget[' + main_row_pos + '][main_cols][' + main_col_pos + '][format]');
+                $(this).find('.main-col-format').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][format]');
 
                 var sub_row_pos = 0;
                 $(this).find('.sub-row').each(function () {
@@ -581,7 +581,7 @@ var builder = {
                     var sub_col_pos = 0;
                     $(this).find('.column-area').each(function () {
                         $(this).find('.sub-col-pos').val(sub_col_pos);
-                        $(this).find('.sub-col-format').attr('name', 'widget[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][format]');
+                        $(this).find('.sub-col-format').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][format]');
                         $(this).find('.module-area').removeClass().addClass('module-area droparea ui-droppable ui-sortable sub-col-' + sub_col_pos);
 
                         var module_pos = 0;
@@ -591,9 +591,9 @@ var builder = {
                             $(this).find('.module-in-sub-row').val(sub_row_pos);
                             $(this).find('.module-in-sub-sol').val(sub_col_pos);
 
-                            $(this).find('.module-code').attr('name', 'widget[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][code]');
-                            $(this).find('.module-name').attr('name', 'widget[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][name]');
-                            $(this).find('.module-url').attr('name', 'widget[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][url]');
+                            $(this).find('.module-code').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][code]');
+                            $(this).find('.module-name').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][name]');
+                            $(this).find('.module-url').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][url]');
 
                             module_pos++;
                         });

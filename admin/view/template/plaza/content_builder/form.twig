@@ -13,7 +13,7 @@
         </div>
         <div class="container-fluid">
             <div class="header-engine">
-                <div class="pull-right">
+                <div class="action-buttons pull-right">
                     <button type="submit" form="form-content" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
                     <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
                 </div>
@@ -54,10 +54,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="widget-container col-sm-12">
-                            {% if widgets %}
-                                {% set widget_row = 0 %}
-                                {% for main_row in widgets %}
+                        <div class="elements-container col-sm-12">
+                            {% if elements %}
+                                {% set elements_row = 0 %}
+                                {% for main_row in elements %}
                                     {% set cols_format, main_col_count = "", 0 %}
                                     {% for main_col in main_row.main_cols %}
                                         {% set main_col_count = main_col_count + 1 %}
@@ -67,7 +67,7 @@
                                             {% set cols_format = cols_format ~ main_col.format ~ ' + ' %}
                                         {% endif %}
                                     {% endfor %}
-                                    <div class="widget-row col-sm-12">
+                                    <div class="elements-row col-sm-12">
                                         <div class="row-action">
                                             <div class="action-group">
                                                 <div class="col-count">
@@ -76,21 +76,21 @@
                                                     <a href="javascript:void(0);" onclick="builder.minusMainColumn($(this));" rel="1" class="col-minus"></a>
                                                 </div>
                                                 <div class="a-group">
-                                                    <input type="text" class="form-control input-class-name" name="widget[{{ widget_row }}][class]" value="{{ main_row.class }}" placeholder="{{ text_specified_class }}" />
+                                                    <input type="text" class="form-control input-class-name" name="elements[{{ elements_row }}][class]" value="{{ main_row.class }}" placeholder="{{ text_specified_class }}" />
                                                     <a class="a-column-custom" title="{{ text_custom_columns }}" onclick="builder.customMainColumns($(this));" href="javascript:void(0);"></a>
                                                     <a class="a-row-delete" onclick="builder.removeRow($(this));" href="javascript:void(0);"></a>
                                                 </div>
                                             </div>
                                             <input type="hidden" class="cols-format" value="{{ cols_format }}" />
                                         </div>
-                                        <div class="row-content row-{{ widget_row }}">
+                                        <div class="row-content row-{{ elements_row }}">
                                             {% set main_col_count = 0 %}
                                             {% for main_col in main_row.main_cols %}
                                                 <div class="col-sm-{{ main_col.format }} main-column">
                                                     <input type="hidden" class="main-col-pos" value="{{ main_col_count }}" />
-                                                    <input type="hidden" class="main-col-format" name="widget[{{ widget_row }}][main_cols][{{ main_col_count }}][format]" value="{{ main_col.format }}" />
+                                                    <input type="hidden" class="main-col-format" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][format]" value="{{ main_col.format }}" />
                                                     <div class="main-col-content main-col-{{ main_col_count }}">
-                                                        {% set widget_sub_row = 0 %}
+                                                        {% set elements_sub_row = 0 %}
                                                         {% if main_col.sub_rows %}
                                                             {% for sub_row in main_col.sub_rows %}
                                                                 {% set sub_cols_format, sub_col_count = "", 0 %}
@@ -102,7 +102,7 @@
                                                                         {% set sub_cols_format = sub_cols_format ~ sub_col.format ~ ' + '%}
                                                                     {% endif %}
                                                                 {% endfor %}
-                                                                <div class="sub-row sub-row-{{ widget_sub_row }}">
+                                                                <div class="sub-row sub-row-{{ elements_sub_row }}">
                                                                     <div class="sub-row-action">
                                                                         <div class="action-group">
                                                                             <div class="sub-col-count">
@@ -151,13 +151,13 @@
                                                                                                             <a class="a-module-remove" href="javascript:void(0);" onclick="builder.removeModule($(this))"><i class="fa fa-times"></i></a>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <input type="hidden" class="module-in-main-row" value="{{ widget_row }}" />
+                                                                                                    <input type="hidden" class="module-in-main-row" value="{{ elements_row }}" />
                                                                                                     <input type="hidden" class="module-in-main-col" value="{{ main_col_count }}" />
-                                                                                                    <input type="hidden" class="module-in-sub-row" value="{{ widget_sub_row }}" />
+                                                                                                    <input type="hidden" class="module-in-sub-row" value="{{ elements_sub_row }}" />
                                                                                                     <input type="hidden" class="module-in-sub-col" value="{{ sub_col_count }}" />
-                                                                                                    <input type="hidden" class="module-code" name="widget[{{ widget_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ widget_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][code]" value="{{ module.code }}" />
-                                                                                                    <input type="hidden" class="module-name" name="widget[{{ widget_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ widget_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][name]" value="{{ module.name }}" />
-                                                                                                    <input type="hidden" class="module-url"  name="widget[{{ widget_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ widget_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][url]"  value="{{ module.url }}" />
+                                                                                                    <input type="hidden" class="module-code" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][code]" value="{{ module.code }}" />
+                                                                                                    <input type="hidden" class="module-name" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][name]" value="{{ module.name }}" />
+                                                                                                    <input type="hidden" class="module-url"  name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][url]"  value="{{ module.url }}" />
                                                                                                 </div>
                                                                                                 {% set position = position + 1 %}
                                                                                             {% endfor %}
@@ -170,17 +170,17 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <input type="hidden" class="sub-col-pos" value="{{ sub_col_count }}" />
-                                                                                <input type="hidden" class="sub-col-format" name="widget[{{ widget_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ widget_sub_row }}][sub_cols][{{ sub_col_count }}][format]" value="{{ sub_col.format }}" />
+                                                                                <input type="hidden" class="sub-col-format" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][format]" value="{{ sub_col.format }}" />
                                                                             </div>
                                                                             {% set sub_col_count = sub_col_count + 1 %}
                                                                         {% endfor %}
                                                                     </div>
-                                                                    <input type="hidden" class="sub-row-pos" value="{{ widget_sub_row }}" />
+                                                                    <input type="hidden" class="sub-row-pos" value="{{ elements_sub_row }}" />
                                                                 </div>
-                                                                {% set widget_sub_row = widget_sub_row + 1 %}
+                                                                {% set elements_sub_row = elements_sub_row + 1 %}
                                                             {% endfor %}
                                                         {% else %}
-                                                            <div class="sub-row sub-row-{{ widget_sub_row }}">
+                                                            <div class="sub-row sub-row-{{ elements_sub_row }}">
                                                                 <div class="sub-row-action">
                                                                     <div class="action-group">
                                                                         <div class="sub-col-count">
@@ -205,10 +205,10 @@
                                                                             </div>
                                                                         </div>
                                                                         <input type="hidden" class="sub-col-pos" value="{{ sub_col_count }}" />
-                                                                        <input type="hidden" class="sub-col-format" name="widget[0][main_cols][0][sub_rows][0][sub_cols][0][format]" value="12" />
+                                                                        <input type="hidden" class="sub-col-format" name="elements[0][main_cols][0][sub_rows][0][sub_cols][0][format]" value="12" />
                                                                     </div>
                                                                 </div>
-                                                                <input type="hidden" class="sub-row-pos" value="{{ widget_sub_row }}" />
+                                                                <input type="hidden" class="sub-row-pos" value="{{ elements_sub_row }}" />
                                                             </div>
                                                         {% endif %}
                                                     </div>
@@ -219,13 +219,13 @@
                                                 {% set main_col_count = main_col_count + 1 %}
                                             {% endfor %}
                                         </div>
-                                        <input type="hidden" class="main-row-pos" value="{{ widget_row }}" />
+                                        <input type="hidden" class="main-row-pos" value="{{ elements_row }}" />
                                     </div>
-                                    {% set widget_row = widget_row + 1 %}
+                                    {% set elements_row = elements_row + 1 %}
                                 {% endfor %}
                             {% else %}
-                                {% set widget_row = 0 %}
-                                <div class="widget-row col-sm-12">
+                                {% set elements_row = 0 %}
+                                <div class="elements-row col-sm-12">
                                     <div class="row-action">
                                         <div class="action-group">
                                             <div class="col-count">
@@ -234,22 +234,22 @@
                                                 <a href="javascript:void(0);" onclick="builder.minusMainColumn($(this));" rel="1" class="col-minus"></a>
                                             </div>
                                             <div class="a-group">
-                                                <input type="text" class="form-control input-class-name" name="widget[0][class]" value="" placeholder="{{ text_specified_class }}" />
+                                                <input type="text" class="form-control input-class-name" name="elements[0][class]" value="" placeholder="{{ text_specified_class }}" />
                                                 <a class="a-column-custom" title="{{ text_custom_columns }}" onclick="builder.customMainColumns($(this));" href="javascript:void(0);"></a>
                                                 <a class="a-row-delete" onclick="builder.removeRow($(this));" href="javascript:void(0);"></a>
                                             </div>
                                         </div>
                                         <input type="hidden" class="cols-format" value="12" />
                                     </div>
-                                    <div class="row-content row-{{ widget_row }}">
+                                    <div class="row-content row-{{ elements_row }}">
                                         {% set main_col_count = 0 %}
                                         {% set sub_col_count = 0 %}
                                         <div class="col-sm-12 main-column">
                                             <input type="hidden" class="main-col-pos" value="{{ main_col_count }}" />
-                                            <input type="hidden" class="main-col-format" name="widget[0][main_cols][0][format]" value="12" />
+                                            <input type="hidden" class="main-col-format" name="elements[0][main_cols][0][format]" value="12" />
                                             <div class="main-col-content main-col-{{ main_col_count }}">
-                                                {% set widget_sub_row = 0 %}
-                                                <div class="sub-row sub-row-{{ widget_sub_row }}">
+                                                {% set elements_sub_row = 0 %}
+                                                <div class="sub-row sub-row-{{ elements_sub_row }}">
                                                     <div class="sub-row-action">
                                                         <div class="action-group">
                                                             <div class="sub-col-count">
@@ -274,10 +274,10 @@
                                                                 </div>
                                                             </div>
                                                             <input type="hidden" class="sub-col-pos" value="{{ sub_col_count }}" />
-                                                            <input type="hidden" class="sub-col-format" name="widget[0][main_cols][0][sub_rows][0][sub_cols][0][format]" value="12" />
+                                                            <input type="hidden" class="sub-col-format" name="elements[0][main_cols][0][sub_rows][0][sub_cols][0][format]" value="12" />
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" class="sub-row-pos" value="{{ widget_sub_row }}" />
+                                                    <input type="hidden" class="sub-row-pos" value="{{ elements_sub_row }}" />
                                                 </div>
                                             </div>
                                             <div class="sub-row-add">
@@ -285,11 +285,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="hidden" class="main-row-pos" value="{{ widget_row }}" />
+                                    <input type="hidden" class="main-row-pos" value="{{ elements_row }}" />
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="widget-info-group col-sm-12">
+                        <div class="elements-info-group col-sm-12">
                             <button type="button" class="btn-insert">
                                 <i class="fa fa-plus-square"></i>
                             </button>
@@ -375,7 +375,7 @@
 </script>
 <script>
     $('.btn-insert').click(function () {
-        var row_number = $('.widget-row:last .main-row-pos').val();
+        var row_number = $('.elements-row:last .main-row-pos').val();
         if(row_number == null) {
             row_number = 0;
         } else {
