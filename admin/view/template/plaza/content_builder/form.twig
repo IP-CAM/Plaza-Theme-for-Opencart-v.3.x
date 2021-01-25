@@ -299,7 +299,7 @@
 
                 <div class="all-modules-container row">
                     <div class="top">
-                        <h4>ADD ELEMENTS</h4>
+                        <h4>{{ text_add_elements }}</h4>
                         <div class="pull-right">
                             <button type="button" class="btn-close btn-default pull-right" onclick="builder.closeAllModules();">Close</button>
                         </div>
@@ -311,37 +311,45 @@
                     <div class="tab-content">
                         <div class="tab-pane active widgets-container" id="tab-widgets">
                             {% for widget in widgets %}
-                                {{ widget.title }} /
+                                <div class="button-add-group">
+                                    <button type="button" onclick="builder.addModule('{{ widget.title }}', '{{ widget.title }}', '{{ widget.title }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
+                                                <span>
+                                                    {{ widget.title }}
+                                                </span>
+                                    </button>
+                                </div>
                             {% endfor %}
                         </div>
                         <div class="tab-pane modules-container" id="tab-modules">
                             {% for extension in extensions %}
-                                <p>{{ extension.name }}</p>
-                                {% if not extension.modules %}
-                                    {% set extension_url = extension.url %}
-                                    {% set extension_code = extension.code %}
-                                    {% set extension_name = extension.name %}
-                                    <div class="col-sm-12">
-                                        <button type="button" onclick="builder.addModule('{{ extension_name }}', '{{ extension_code }}', '{{ extension_url }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
-                                <span>
-                                    {{ extension_name }}
-                                </span>
-                                        </button>
-                                    </div>
-                                {% else %}
-                                    {% for module in extension.modules %}
-                                        {% set module_url = module.url %}
-                                        {% set module_code = module.code %}
-                                        {% set module_name = module.name %}
-                                        <div class="col-sm-12">
-                                            <button type="button" onclick="builder.addModule('{{ module_name }}', '{{ module_code }}', '{{ module_url }}')" class="btn-choose-module btn btn-default" value="{{ module_code }}">
-                                    <span>
-                                        {{ module_name }}
-                                    </span>
+                                <div class="extension-container">
+                                    <p class="extension-name-group">{{ extension.name }}</p>
+                                    {% if not extension.modules %}
+                                        {% set extension_url = extension.url %}
+                                        {% set extension_code = extension.code %}
+                                        {% set extension_name = extension.name %}
+                                        <div class="button-add-group">
+                                            <button type="button" onclick="builder.addModule('{{ extension_name }}', '{{ extension_code }}', '{{ extension_url }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
+                                                <span>
+                                                    {{ extension_name }}
+                                                </span>
                                             </button>
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
+                                    {% else %}
+                                        {% for module in extension.modules %}
+                                            {% set module_url = module.url %}
+                                            {% set module_code = module.code %}
+                                            {% set module_name = module.name %}
+                                            <div class="button-add-group">
+                                                <button type="button" onclick="builder.addModule('{{ module_name }}', '{{ module_code }}', '{{ module_url }}')" class="btn-choose-module btn btn-default" value="{{ module_code }}">
+                                                    <span>
+                                                        {{ module_name }}
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             {% endfor %}
                         </div>
                     </div>

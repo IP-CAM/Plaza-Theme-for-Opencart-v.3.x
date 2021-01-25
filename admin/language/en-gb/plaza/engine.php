@@ -26,6 +26,7 @@ $_['text_add_sub_row']      = "Add Sub Row";
 $_['text_add_module']       = "Add modules";
 $_['text_number_max_over']  = "The columns number must be less than 12";
 $_['text_number_min_over']  = "The columns number must be more than 0";
+$_['text_add_elements'] = "Add Elements";
 
 // Column
 $_['column_name'] = "Name";

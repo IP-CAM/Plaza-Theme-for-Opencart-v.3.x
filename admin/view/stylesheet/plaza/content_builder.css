@@ -189,7 +189,7 @@
     height: 100%;
     overflow: auto;
     top: 0;
-    right: 0;
+    right: 15px;
     background: #FFF;
     padding: 10px;
 }
@@ -204,6 +204,21 @@
     padding: 0;
     line-height: 25px;
     font-weight: 600;
+    text-transform: uppercase;
+}
+.all-modules-container .nav-tabs {margin-bottom: 15px;}
+.modules-container .extension-container {
+    display: block;
+    overflow: auto;
+    padding: 0 15px 15px;
+    border-bottom: 1px solid #ddd;
+}
+.modules-container .extension-container .extension-name-group {
+    font-weight: 600;
+    margin: 5px 0;
+}
+.modules-container .extension-container .button-add-group {
+    width: 100%;
 }
 .btn-choose-module,
 .btn-choose-module:active,
@@ -213,11 +228,11 @@
     padding: 0 10px;
     line-height: 43px;
     width: 100%;
-    margin: 8px 0;
     background: #324b6b;
     color: #fff;
     border: 1px solid #324b6b;
     border-radius: 0;
+    margin-top: 5px;
 }
 .btn-choose-module:hover {
     background-color: #202832;
