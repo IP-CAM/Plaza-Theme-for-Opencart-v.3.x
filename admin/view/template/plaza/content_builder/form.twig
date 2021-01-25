@@ -298,44 +298,58 @@
                 </form>
 
                 <div class="all-modules-container row">
-                    <div class="modules-container">
-                        {% for extension in extensions %}
-                            {% if not extension.modules %}
-                                {% set extension_url = extension.url %}
-                                {% set extension_code = extension.code %}
-                                {% set extension_name = extension.name %}
-                                <div class="col-sm-4">
-                                    <button type="button" onclick="builder.addModule('{{ extension_name }}', '{{ extension_code }}', '{{ extension_url }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
+                    <div class="top">
+                        <h4>ADD ELEMENTS</h4>
+                        <div class="pull-right">
+                            <button type="button" class="btn-close btn-default pull-right" onclick="builder.closeAllModules();">Close</button>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-widgets" data-toggle="tab">{{ tab_widgets }}</a></li>
+                        <li><a href="#tab-modules" data-toggle="tab">{{ tab_modules }}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active widgets-container" id="tab-widgets">
+                            {% for widget in widgets %}
+                                {{ widget.title }} /
+                            {% endfor %}
+                        </div>
+                        <div class="tab-pane modules-container" id="tab-modules">
+                            {% for extension in extensions %}
+                                <p>{{ extension.name }}</p>
+                                {% if not extension.modules %}
+                                    {% set extension_url = extension.url %}
+                                    {% set extension_code = extension.code %}
+                                    {% set extension_name = extension.name %}
+                                    <div class="col-sm-12">
+                                        <button type="button" onclick="builder.addModule('{{ extension_name }}', '{{ extension_code }}', '{{ extension_url }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
                                 <span>
                                     {{ extension_name }}
                                 </span>
-                                    </button>
-                                </div>
-                            {% else %}
-                                {% for module in extension.modules %}
-                                    {% set module_url = module.url %}
-                                    {% set module_code = module.code %}
-                                    {% set module_name = module.name %}
-                                    <div class="col-sm-4">
-                                        <button type="button" onclick="builder.addModule('{{ module_name }}', '{{ module_code }}', '{{ module_url }}')" class="btn-choose-module btn btn-default" value="{{ module_code }}">
+                                        </button>
+                                    </div>
+                                {% else %}
+                                    {% for module in extension.modules %}
+                                        {% set module_url = module.url %}
+                                        {% set module_code = module.code %}
+                                        {% set module_name = module.name %}
+                                        <div class="col-sm-12">
+                                            <button type="button" onclick="builder.addModule('{{ module_name }}', '{{ module_code }}', '{{ module_url }}')" class="btn-choose-module btn btn-default" value="{{ module_code }}">
                                     <span>
                                         {{ module_name }}
                                     </span>
-                                        </button>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                     <input type="hidden" id="module-row" value="0" />
                     <input type="hidden" id="module-col" value="0" />
                     <input type="hidden" id="module-sub-row" value="0" />
                     <input type="hidden" id="module-sub-col" value="0" />
-                    <div class="modules-btn-group">
-                        <button type="button" class="btn-close btn-default pull-right" onclick="builder.closeAllModules();">Close</button>
-                    </div>
                 </div>
-
             </div>
         </div>
     </div>

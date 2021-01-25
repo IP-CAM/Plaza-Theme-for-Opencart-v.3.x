@@ -236,15 +236,6 @@ class ControllerPlazaContentBuilder extends Controller
     }
 
     public function getForm() {
-        $widgets = array();
-
-        $widgetFiles = $this->getWidgetsFiles();
-        foreach ($widgetFiles as $widgetFile) {
-            $widget = new Widget($widgetFile);
-
-            $widgets[] = $widget->getType();
-        }
-
         if (isset($this->error['warning'])) {
             $data['error_warning'] = $this->error['warning'];
         } else {
@@ -325,6 +316,12 @@ class ControllerPlazaContentBuilder extends Controller
 
         $data['extensions'] = $this->getExtensions();
 
+        $data['widgets'] = $this->getWidgets();
+
+//        $widgets = $this->getWidgets();
+//
+//        var_dump($widgets);die;
+
         $this->document->addStyle('view/javascript/jquery/jquery-ui/jquery-ui.min.css');
         $this->document->addStyle('view/stylesheet/plaza/engine.css');
         $this->document->addStyle('view/stylesheet/plaza/content_builder.css');
@@ -340,10 +337,20 @@ class ControllerPlazaContentBuilder extends Controller
         $this->response->setOutput($this->load->view('plaza/content_builder/form', $data));
     }
 
-    public function getWidgetsFiles() {
-        $widgets = array_map( function( $item ) {
+    public function getWidgets() {
+        $widgets = array();
+
+        $widgetsFiles = array_map( function( $item ) {
             return basename( $item, ".php" );
         }, glob(self::PATH_WIDGETS_FILES) );
+
+        foreach ($widgetsFiles as $file) {
+            $data['title'] = $this->language->get('text_widget_' . $file);
+            $widgets[] = array(
+                'title' => $data['title'],
+//                'toHtml' => $this->load->view('plaza/widget/' . $file, $data)
+            );
+        }
 
         return $widgets;
     }

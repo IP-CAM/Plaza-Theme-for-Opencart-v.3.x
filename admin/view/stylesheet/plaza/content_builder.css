@@ -169,7 +169,7 @@
     top: 0;
     right: 0;
 }
-.layout-module-info .top .module-action a {font-size: 12px;padding: 16px 20px;display:  none;color: #fff;background: #313e4c;float:  left;}
+.layout-module-info .top .module-action a {font-size: 12px;padding: 16px 20px;display:  none;color: #fff;background: #313e4c;float: left;}
 .layout-module-info .top .module-action .a-module-edit:hover {background: #5a2504}
 .layout-module-info .top .module-action .a-module-remove:hover {background: #ce1010}
 .layout-module-info:hover .top .module-action a {display: block;}
@@ -185,23 +185,25 @@
     display: none;
     position: fixed;
     z-index: 1200;
-    width: 80%;
+    width: 20%;
     height: 100%;
     overflow: auto;
     top: 0;
-    left: 0;
-    background: rgba(0, 0, 0,0.9);
-    padding: 35px;
+    right: 0;
+    background: #FFF;
+    padding: 10px;
 }
-.modules-container {
-    /*display: inline-block;*/
+.all-modules-container .top {
+    margin-bottom: 20px;
+    float: left;
+    width: 100%;
 }
-.modules-btn-group {
-    display: inline-block;
-    position: fixed;
-    left: 79%;
-    top: 0;
-    z-index: 100;
+.all-modules-container .top h4 {
+    float: left;
+    margin: 0;
+    padding: 0;
+    line-height: 25px;
+    font-weight: 600;
 }
 .btn-choose-module,
 .btn-choose-module:active,
@@ -212,14 +214,15 @@
     line-height: 43px;
     width: 100%;
     margin: 8px 0;
-    background: #eb5202;
+    background: #324b6b;
     color: #fff;
-    border: 1px solid #eb5202;
+    border: 1px solid #324b6b;
+    border-radius: 0;
 }
 .btn-choose-module:hover {
-    background-color: transparent;
-    border-color: #eb5202;
-    color: #fff;
+    background-color: #202832;
+    border-color: #202832;
+    color: #ffffff;
 }
 .btn-choose-module span {
     white-space: normal;
@@ -227,8 +230,11 @@
 }
 .popup-background {
     display: none;
-    background-color : rgba(0,0,0,0.35);
-    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.1);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     margin: auto;
     position: fixed;
     z-index: 1100;
@@ -262,25 +268,20 @@
 }
 .popup-btn-group {display: inline-block;vertical-align: top;position: fixed;top: 0;left: 80%;}
 .btn-close, .btn-close:active, .btn-close:focus {
-    display: inline-block;
-    vertical-align: top;
-    line-height: 50px;
-    width: 50px;
-    height: 50px;
-    background-color: #000;
+    background-color: #ff0000;
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
     border: 0;
-    white-space: nowrap;
-    padding: 0;
+    padding: 0px 5px;
     font-size: 0;
     color: #fff;
+    margin-right: 15px;
 }
 .btn-close:before {
     content: "\f057";
     font-family: 'FontAwesome';
-    font-size: 26px;
+    font-size: 20px;
 }
-.btn-close:hover {background-color: #eb5202;color: #FFFFFF;}
+.btn-close:hover {background-color: #ff0000;color: #FFFFFF;}
