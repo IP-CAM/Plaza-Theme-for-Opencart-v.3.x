@@ -350,6 +350,7 @@ class ControllerPlazaContentBuilder extends Controller
             $data['title'] = $this->language->get('text_widget_' . $file);
             $widgets[] = array(
                 'title' => $data['title'],
+                'code' => $file,
                 'url' => $this->url->link('plaza/content_builder/showWidgetForm' , 'user_token=' . $this->session->data['user_token'] . '&widget=' . $file, true)
             );
         }

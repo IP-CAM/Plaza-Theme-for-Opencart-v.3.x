@@ -126,13 +126,15 @@
                                                                                         {% for modules in sub_col.info %}
                                                                                             {% set position = 0 %}
                                                                                             {% for module in modules %}
-                                                                                                {% set module_name = module.name %}
-                                                                                                {% set module_url = module.url %}
+                                                                                                {% set module_name = '' %}
+                                                                                                {% set module_url = '' %}
+                                                                                                {% set module_code = '' %}
                                                                                                 {% set element_type = "widget" %}
                                                                                                 {% for extension in extensions %}
                                                                                                     {% if not extension.modules and (extension.code == module.code) %}
                                                                                                         {% set module_url = extension.url %}
                                                                                                         {% set module_name = extension.name %}
+                                                                                                        {% set module_code = extension.code %}
                                                                                                         {% set element_type = "module" %}
                                                                                                     {% else %}
                                                                                                         {% for m in extension.modules %}
@@ -140,8 +142,17 @@
                                                                                                                 {% set element_type = "module" %}
                                                                                                                 {% set module_url = m.url %}
                                                                                                                 {% set module_name = m.name %}
+                                                                                                                {% set module_code = m.code %}
                                                                                                             {% endif %}
                                                                                                         {% endfor %}
+                                                                                                    {% endif %}
+                                                                                                {% endfor %}
+                                                                                                {% for widget in widgets %}
+                                                                                                    {% if module.code == widget.code %}
+                                                                                                        {% set module_name = widget.title %}
+                                                                                                        {% set module_url = widget.url %}
+                                                                                                        {% set module_code = widget.code %}
+
                                                                                                     {% endif %}
                                                                                                 {% endfor %}
                                                                                                 <div class="layout-module-info moveable" id="element-{{ elements_row }}{{ main_col_count }}{{ elements_sub_row }}{{ sub_col_count }}">
@@ -155,7 +166,7 @@
                                                                                                             {% endif %}
 
                                                                                                             {% if element_type == "widget" %}
-                                                                                                                <a class="a-module-edit" href="javascript:void(0);" onclick="builder.showWidgetForm('{{ module_name }}','{{ module_url }}','update', $(this))"><i class="fa fa-pencil"></i></a>
+                                                                                                                <a class="a-module-edit" href="javascript:void(0);" onclick="builder.showWidgetForm('{{ module_code }}','{{ module_url }}&{{ module.settings }}','update', $(this))"><i class="fa fa-pencil"></i></a>
                                                                                                             {% endif %}
 
                                                                                                             <a class="a-module-remove" href="javascript:void(0);" onclick="builder.removeModule($(this))"><i class="fa fa-times"></i></a>

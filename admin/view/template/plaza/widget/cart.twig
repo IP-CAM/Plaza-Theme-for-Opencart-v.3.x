@@ -8,9 +8,10 @@
             <label class="col-sm-3 control-label">Popup position</label>
             <div class="col-sm-4">
                 <select class="form-control" name="popup_position">
-                    <option value="behind_icon" {% if popup_position == "behind_icon" %}selected="selected"{% endif %}>Behind Icon</option>
-                    <option value="left_side" {% if popup_position == "left_side" %}selected="selected"{% endif %}>Left Side</option>
-                    <option value="right_side" {% if popup_position == "right_side" %}selected="selected"{% endif %}>Right Side</option>
+                    <option value="behind_icon" {% if popup_position == "behind_icon" %}selected="selected"{% endif %}>{{ text_behind_icon }}</option>
+                    <option value="left_side" {% if popup_position == "left_side" %}selected="selected"{% endif %}>{{ text_left_side }}</option>
+                    <option value="right_side" {% if popup_position == "right_side" %}selected="selected"{% endif %}>{{ text_right_side }}</option>
+                    <option value="center_popup" {% if popup_position == "center_popup" %}selected="selected"{% endif %}>{{ text_center_popup }}</option>
                 </select>
             </div>
         </div>
