@@ -348,11 +348,59 @@ class ControllerPlazaContentBuilder extends Controller
             $data['title'] = $this->language->get('text_widget_' . $file);
             $widgets[] = array(
                 'title' => $data['title'],
-//                'toHtml' => $this->load->view('plaza/widget/' . $file, $data)
+                'url' => $this->url->link('plaza/content_builder/showWidgetForm' , 'user_token=' . $this->session->data['user_token'] . '&widget=' . $file, true)
             );
         }
 
         return $widgets;
+    }
+
+    public function showWidgetForm() {
+        $this->load->language('plaza/engine');
+
+        $json = array();
+
+        if(isset($this->request->get['widget'])) {
+            $data = $this->request->get;
+            $data['settings'] = array();
+            if(isset($this->request->get['settings'])) {
+                $data['settings'] = unserialize($this->request->get['settings']);
+            }
+
+            $widget = $this->request->get['widget'];
+
+            $data['widget'] = $widget;
+            $data['state'] = $this->request->get['state'];
+            $data['convert_url'] = $this->url->link('plaza/content_builder/convertWidgetData' , 'user_token=' . $this->session->data['user_token'], true);
+
+            $json['result_html'] = $this->load->view('plaza/widget/' . $widget, $data);
+        } else {
+            $json['error'] = $this->language->get('error_cannot_load_widget');
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
+    public function convertWidgetData() {
+        $this->load->language('plaza/engine');
+
+        $json = array();
+
+        if(isset($this->request->post)) {
+            $params = $this->request->post;
+            $json['settings'] = serialize($params);
+            $json['widget'] = $this->request->post['widget'];
+            $json['state'] = $this->request->post['state'];
+            $json['url'] = $this->url->link('plaza/content_builder/showWidgetForm', 'user_token=' . $this->session->data['user_token'], true);
+        }
+
+        if(empty($json)) {
+            $json['error'] = $this->language->get('error_cannot_load_widget');
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
     }
 
     public function getExtensions() {

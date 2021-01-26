@@ -126,28 +126,38 @@
                                                                                         {% for modules in sub_col.info %}
                                                                                             {% set position = 0 %}
                                                                                             {% for module in modules %}
-                                                                                                {% set module_name = '' %}
-                                                                                                {% set module_url = '' %}
+                                                                                                {% set module_name = module.name %}
+                                                                                                {% set module_url = module.url %}
+                                                                                                {% set element_type = "widget" %}
                                                                                                 {% for extension in extensions %}
                                                                                                     {% if not extension.modules and (extension.code == module.code) %}
                                                                                                         {% set module_url = extension.url %}
                                                                                                         {% set module_name = extension.name %}
+                                                                                                        {% set element_type = "module" %}
                                                                                                     {% else %}
                                                                                                         {% for m in extension.modules %}
                                                                                                             {% if m.code == module.code %}
+                                                                                                                {% set element_type = "module" %}
                                                                                                                 {% set module_url = m.url %}
                                                                                                                 {% set module_name = m.name %}
                                                                                                             {% endif %}
                                                                                                         {% endfor %}
                                                                                                     {% endif %}
                                                                                                 {% endfor %}
-                                                                                                <div class="layout-module-info moveable">
+                                                                                                <div class="layout-module-info moveable" id="element-{{ elements_row }}{{ main_col_count }}{{ elements_sub_row }}{{ sub_col_count }}">
                                                                                                     <div class="top">
                                                                                                         <div class="module-info">
                                                                                                             <p>{{ module_name }}</p>
                                                                                                         </div>
                                                                                                         <div class="module-action">
-                                                                                                            <a class="a-module-edit" href="javascript:void(0);" onclick="loadModule('{{ module_url }}')"><i class="fa fa-pencil"></i></a>
+                                                                                                            {% if element_type == "module" %}
+                                                                                                                <a class="a-module-edit" href="javascript:void(0);" onclick="loadModule('{{ module_url }}')"><i class="fa fa-pencil"></i></a>
+                                                                                                            {% endif %}
+
+                                                                                                            {% if element_type == "widget" %}
+                                                                                                                <a class="a-module-edit" href="javascript:void(0);" onclick="builder.showWidgetForm('{{ module_name }}','{{ module_url }}','update', $(this))"><i class="fa fa-pencil"></i></a>
+                                                                                                            {% endif %}
+
                                                                                                             <a class="a-module-remove" href="javascript:void(0);" onclick="builder.removeModule($(this))"><i class="fa fa-times"></i></a>
                                                                                                         </div>
                                                                                                     </div>
@@ -157,7 +167,8 @@
                                                                                                     <input type="hidden" class="module-in-sub-col" value="{{ sub_col_count }}" />
                                                                                                     <input type="hidden" class="module-code" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][code]" value="{{ module.code }}" />
                                                                                                     <input type="hidden" class="module-name" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][name]" value="{{ module.name }}" />
-                                                                                                    <input type="hidden" class="module-url"  name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][url]"  value="{{ module.url }}" />
+                                                                                                    <input type="hidden" class="module-settings" name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][settings]" value='{{ module.settings }}' />
+                                                                                                    <input type="hidden" class="module-url"  name="elements[{{ elements_row }}][main_cols][{{ main_col_count }}][sub_rows][{{ elements_sub_row }}][sub_cols][{{ sub_col_count }}][info][module][{{ position }}][url]"  value='{{ module.url }}' />
                                                                                                 </div>
                                                                                                 {% set position = position + 1 %}
                                                                                             {% endfor %}
@@ -297,7 +308,7 @@
                     </div>
                 </form>
 
-                <div class="all-modules-container row">
+                <div class="all-modules-container">
                     <div class="top">
                         <h4>{{ text_add_elements }}</h4>
                         <div class="pull-right">
@@ -312,10 +323,10 @@
                         <div class="tab-pane active widgets-container" id="tab-widgets">
                             {% for widget in widgets %}
                                 <div class="button-add-group">
-                                    <button type="button" onclick="builder.addModule('{{ widget.title }}', '{{ widget.title }}', '{{ widget.title }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
-                                                <span>
-                                                    {{ widget.title }}
-                                                </span>
+                                    <button type="button" onclick="builder.showWidgetForm('{{ widget.title }}', '{{ widget.url }}')" class="btn-choose-module btn btn-default" value="{{ extension_code }}">
+                                        <span>
+                                            {{ widget.title }}
+                                        </span>
                                     </button>
                                 </div>
                             {% endfor %}
@@ -383,6 +394,12 @@
         <button type="button" class="btn-close btn-default pull-right" onclick="closePopup();">Close</button>
     </div>
 </div>
+<div id="widget-frame">
+    <div class="content"></div>
+    <div class="close-btn-section">
+        <button type="button" class="btn-close btn-default pull-right" onclick="closePopup();">Close</button>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         $('.toggle.btn').on('click', function () {
@@ -409,6 +426,7 @@
     var module_edit_frame = $('#module-frame');
 
     function closePopup() {
+        $('#widget-frame').hide();
         $('.popup-background').hide();
         $('.popup-loader-img').hide();
         $('.popup-container').hide();
@@ -421,10 +439,14 @@
         $('.popup-loader-img').show();
     }
 
+    function loadWidget(url) {
+
+    }
+
     module_edit_frame.on('load', function(event) {
         var current_url = document.getElementById("module-frame").contentWindow.location.href;
 
-        if(module_edit_frame.attr('src') != "" && current_url.search('route=extension/module') > -1) {
+        if(module_edit_frame.attr('src') !== "" && current_url.search('route=extension/module') > -1) {
             module_edit_frame.contents().find('#header,#content .page-header .breadcrumb,#column-left,#footer').hide();
             module_edit_frame.contents().find('#column-left + #content').css('margin', '0px');
             module_edit_frame.contents().find('#content').css('padding', '20px 0 0');

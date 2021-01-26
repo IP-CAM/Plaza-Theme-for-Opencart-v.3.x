@@ -189,7 +189,7 @@
     height: 100%;
     overflow: auto;
     top: 0;
-    right: 15px;
+    right: 0;
     background: #FFF;
     padding: 10px;
 }
@@ -210,7 +210,7 @@
 .modules-container .extension-container {
     display: block;
     overflow: auto;
-    padding: 0 15px 15px;
+    padding: 0 0 15px;
     border-bottom: 1px solid #ddd;
 }
 .modules-container .extension-container .extension-name-group {
@@ -281,7 +281,31 @@
     width: 100%;
     height: 100%;
 }
-.popup-btn-group {display: inline-block;vertical-align: top;position: fixed;top: 0;left: 80%;}
+.popup-btn-group {display: inline-block;vertical-align: top;top: 0;position: fixed;left: 80%;}
+#widget-frame {
+    display: none;
+    z-index: 1120;
+    position: fixed;
+    background-color: #FFF;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    max-height: 50%;
+}
+#widget-frame .title-section {
+    background: #324b6b;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 20px;
+}
+#widget-frame .close-btn-section {
+    position: fixed;
+    top: 25%;
+    left:75%;
+}
+#widget-frame .close-btn-section .btn-close {padding: 5px 10px;}
+#widget-frame .close-btn-section .btn-close::before {font-size: 23px;}
 .btn-close, .btn-close:active, .btn-close:focus {
     background-color: #ff0000;
     font-weight: normal;

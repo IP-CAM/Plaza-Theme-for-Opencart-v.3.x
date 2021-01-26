@@ -1,0 +1,23 @@
+<div class="title-section">{{ text_widget_cart }}</div>
+<div class="container-fluid">
+    <form class="form-horizontal" id="frm-widget">
+        <input type="hidden" name="widget" value="{{ widget }}" />
+        <input type="hidden" name="state" value="{{ state }}" />
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Popup position</label>
+            <div class="col-sm-4">
+                <select class="form-control" name="popup_position">
+                    <option value="behind_icon" {% if popup_position == "behind_icon" %}selected="selected"{% endif %}>Behind Icon</option>
+                    <option value="left_side" {% if popup_position == "left_side" %}selected="selected"{% endif %}>Left Side</option>
+                    <option value="right_side" {% if popup_position == "right_side" %}selected="selected"{% endif %}>Right Side</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3">
+                <button type="button" onclick="builder.submitWidget('{{ widget }}', '{{ convert_url }}', $('#frm-widget').serialize())" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>

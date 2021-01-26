@@ -48,3 +48,4 @@ $_['entry_sort_order'] = "Sort Order";
 $_['error_warning']          = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']       = 'Warning: You do not have permission to modify data!';
 $_['error_name']             = 'Name must be greater than 1 and less than 255 characters!';
+$_['error_cannot_load_widget'] = 'Can\'t load widget form!';

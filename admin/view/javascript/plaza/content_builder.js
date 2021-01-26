@@ -522,6 +522,90 @@ var builder = {
         $('.popup-loader-img').hide();
     },
 
+    'showWidgetForm' : function(name, url, state = 'add', element = null) {
+        $.ajax({
+            url: url + "&state=" + state,
+            method: 'GET',
+            beforeSend: function() {
+                builder.closeAllModules();
+                $('.popup-background').show();
+                $('.popup-loader-img').show();
+            },
+            success: function (json) {
+                if(json['error']) {
+                    alert(json['error']);
+                    $('.popup-background').hide();
+                    $('.popup-loader-img').hide();
+                    $('#widget-frame').hide();
+                } else {
+                    $('#widget-frame .content').html(json['result_html']);
+                    $('#widget-frame').show();
+                }
+            }
+        })
+    },
+
+    'submitWidget' : function(name, url, settings) {
+        $.ajax({
+            url: url,
+            data: settings,
+            method: 'POST',
+            success: function (json) {
+                let settings_param = settings;
+                let widget = json['widget'];
+                let state = json['state'];
+                let url = json['url'] + "&" + settings_param;
+
+                if(state === "add") {
+                    builder.addWidget(widget, url, settings_param);
+                }
+
+                if(state === "update") {
+                    builder.updateWidget(widget, url, settings_param);
+                }
+
+                builder.closeAllModules();
+                $('#widget-frame').hide();
+            }
+        })
+    },
+
+    'addWidget': function(widget, url, settings) {
+        var row_pos =  $('#module-row').val();
+        var col_pos =  $('#module-col').val();
+        var sub_row_pos =  $('#module-sub-row').val();
+        var sub_col_pos =  $('#module-sub-col').val();
+
+        html = '<div class="layout-module-info moveable">';
+        html += '	<div class="top">';
+        html += '		<div class="module-info">';
+        html += '			<p>' + widget + '</p>';
+        html += '		</div>';
+        html += '		<div class="module-action">';
+        html += '		    <a class="a-module-edit" href="javascript:void(0);" onclick="builder.showWidgetForm(\'' + widget + '\', \'' + url + '\', \'update\', $(this))"><i class="fa fa-pencil"></i></a>';
+        html += '			<a class="a-module-remove" href="javascript:void(0);" onclick="builder.removeModule($(this))"><i class="fa fa-times"></i></a>';
+        html += '		</div>';
+        html += '	</div>';
+        html += '	<input type="hidden" class="module-in-main-row" value="' + row_pos +'" />';
+        html += '	<input type="hidden" class="module-in-main-col" value="' + col_pos +'" />';
+        html += '	<input type="hidden" class="module-in-sub-row" value="' + sub_row_pos +'" />';
+        html += '	<input type="hidden" class="module-in-sub-col" value="' + sub_col_pos +'" />';
+        html += '	<input type="hidden" class="module-code" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][code]" value="' + widget +'" />';
+        html += '	<input type="hidden" class="module-name" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][name]" value="' + widget +'" />';
+        html += '	<input type="hidden" class="module-settings" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][settings]" value=\'' + settings + '\' />';
+        html += '	<input type="hidden" class="module-url" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][url]" value=\'' + url + '\' />';
+        html +=	'</div>';
+
+        $('.elements-container .row-' + row_pos + ' .main-col-' + col_pos + ' .sub-row-' + sub_row_pos + ' .sub-col-' + sub_col_pos).append(html);
+        builder.closeAllModules();
+        builder.reArrangeLayout();
+        builder.triggerDragnDrop();
+    },
+
+    'updateWidget': function(widget, url, settings) {
+        alert(url);
+    },
+
     'addModule' : function(name, code, url) {
         var row_pos =  $('#module-row').val();
         var col_pos =  $('#module-col').val();
@@ -544,6 +628,7 @@ var builder = {
         html += '	<input type="hidden" class="module-in-sub-col" value="' + sub_col_pos +'" />';
         html += '	<input type="hidden" class="module-code" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][code]" value="' + code +'" />';
         html += '	<input type="hidden" class="module-name" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][name]" value="' + name +'" />';
+        html += '	<input type="hidden" class="module-settings" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][settings]" value="" />';
         html += '	<input type="hidden" class="module-url" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][url]" value="' + url +'" />';
         html +=	'</div>';
 
@@ -593,8 +678,10 @@ var builder = {
 
                             $(this).find('.module-code').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][code]');
                             $(this).find('.module-name').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][name]');
+                            $(this).find('.module-name').attr('settings', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][settings]');
                             $(this).find('.module-url').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][url]');
 
+                            $(this).attr('id', 'element-' + main_row_pos + main_col_pos + sub_row_pos + sub_col_pos + module_pos);
                             module_pos++;
                         });
 
