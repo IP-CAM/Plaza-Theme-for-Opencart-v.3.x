@@ -10,28 +10,22 @@ class ModelPlazaContentBuilder extends Model
             $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_content_description SET content_id = '" . (int)$content_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
         }
 
-        $this->cache->delete('content');
-
         return $content_id;
     }
 
     public function editContent($content_id, $data) {
-        $this->db->query("UPDATE " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', elements = '" . $this->db->escape(serialize($data['elements'])) . "' WHERE content_id = '" . (int)$content_id . "'");
+        $this->db->query("UPDATE " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', elements = '" . serialize($data['elements']) . "' WHERE content_id = '" . (int)$content_id . "'");
 
         $this->db->query("DELETE FROM " . DB_PREFIX . "plaza_content_description WHERE content_id = '" . (int)$content_id . "'");
 
         foreach ($data['content_description'] as $language_id => $value) {
             $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_content_description SET content_id = '" . (int)$content_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
         }
-
-        $this->cache->delete('content');
     }
 
     public function deleteContent($content_id) {
         $this->db->query("DELETE FROM " . DB_PREFIX . "plaza_content WHERE content_id = '" . (int)$content_id . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "plaza_content_description WHERE content_id = '" . (int)$content_id . "'");
-
-        $this->cache->delete('content');
     }
 
     public function getContent($content_id) {

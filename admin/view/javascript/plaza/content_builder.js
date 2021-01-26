@@ -523,8 +523,14 @@ var builder = {
     },
 
     'showWidgetForm' : function(name, url, state = 'add', element = null) {
+        let module_id = element ? element.closest('.layout-module-info').attr('id') : '';
+        url += "&state=" + state;
+        if(module_id !== "") {
+            url += "&module_id=" + module_id;
+        }
+        url = url.replace("&amp;", "&");
         $.ajax({
-            url: url + "&state=" + state,
+            url: url,
             method: 'GET',
             beforeSend: function() {
                 builder.closeAllModules();
@@ -546,6 +552,7 @@ var builder = {
     },
 
     'submitWidget' : function(name, url, settings) {
+        url = url.replace("&amp;", "&");
         $.ajax({
             url: url,
             data: settings,
@@ -554,6 +561,7 @@ var builder = {
                 let settings_param = settings;
                 let widget = json['widget'];
                 let state = json['state'];
+                let module_id = json['module_id'];
                 let url = json['url'] + "&" + settings_param;
 
                 if(state === "add") {
@@ -561,7 +569,7 @@ var builder = {
                 }
 
                 if(state === "update") {
-                    builder.updateWidget(widget, url, settings_param);
+                    builder.updateWidget(widget, url, settings_param, module_id);
                 }
 
                 builder.closeAllModules();
@@ -571,6 +579,7 @@ var builder = {
     },
 
     'addWidget': function(widget, url, settings) {
+        url = url.replace("&amp;", "&");
         var row_pos =  $('#module-row').val();
         var col_pos =  $('#module-col').val();
         var sub_row_pos =  $('#module-sub-row').val();
@@ -602,8 +611,16 @@ var builder = {
         builder.triggerDragnDrop();
     },
 
-    'updateWidget': function(widget, url, settings) {
-        alert(url);
+    'updateWidget': function(widget, url, settings, module_id) {
+        url = url.replace("&amp;", "&");
+        var element = $("#" + module_id);
+        element.find(".module-code").val(widget);
+        element.find(".module-name").val(widget);
+        element.find(".module-settings").val(settings);
+        element.find(".module-url").val(url);
+        element.find("a.a-module-edit").attr("onclick", "builder.showWidgetForm('" + widget + "', '" + url + "', 'update', $(this))");
+
+        builder.closeAllModules();
     },
 
     'addModule' : function(name, code, url) {

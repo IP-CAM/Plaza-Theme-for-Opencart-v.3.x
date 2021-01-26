@@ -312,6 +312,8 @@ class ControllerPlazaContentBuilder extends Controller
             $data['elements'] = array();
         }
 
+//        var_dump($data['elements']);die;
+
         $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
 
         $data['extensions'] = $this->getExtensions();
@@ -371,6 +373,12 @@ class ControllerPlazaContentBuilder extends Controller
 
             $data['widget'] = $widget;
             $data['state'] = $this->request->get['state'];
+
+            $data['module_id'] = "";
+            if(isset($this->request->get['module_id'])) {
+                $data['module_id'] = $this->request->get['module_id'];
+            }
+
             $data['convert_url'] = $this->url->link('plaza/content_builder/convertWidgetData' , 'user_token=' . $this->session->data['user_token'], true);
 
             $json['result_html'] = $this->load->view('plaza/widget/' . $widget, $data);
@@ -392,6 +400,7 @@ class ControllerPlazaContentBuilder extends Controller
             $json['settings'] = serialize($params);
             $json['widget'] = $this->request->post['widget'];
             $json['state'] = $this->request->post['state'];
+            $json['module_id'] = $this->request->post['module_id'];
             $json['url'] = $this->url->link('plaza/content_builder/showWidgetForm', 'user_token=' . $this->session->data['user_token'], true);
         }
 
