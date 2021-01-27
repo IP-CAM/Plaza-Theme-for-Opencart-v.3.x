@@ -9,9 +9,9 @@ class Block extends Widget
 
     protected $template = "block";
 
-    public function __construct($type, $settings = array(), $title, $html, $isShowTitle)
+    public function __construct($settings, $title, $html, $isShowTitle)
     {
-        parent::__construct($type, $settings);
+        parent::__construct($settings, $this->template);
         $this->title = $title;
         $this->html = $html;
         $this->isShowTitle = $isShowTitle;

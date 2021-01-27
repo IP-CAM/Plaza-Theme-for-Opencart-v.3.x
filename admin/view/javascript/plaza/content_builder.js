@@ -621,6 +621,8 @@ var builder = {
         element.find("a.a-module-edit").attr("onclick", "builder.showWidgetForm('" + widget + "', '" + url + "', 'update', $(this))");
 
         builder.closeAllModules();
+        builder.reArrangeLayout();
+        builder.triggerDragnDrop();
     },
 
     'addModule' : function(name, code, url) {
@@ -695,7 +697,7 @@ var builder = {
 
                             $(this).find('.module-code').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][code]');
                             $(this).find('.module-name').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][name]');
-                            $(this).find('.module-name').attr('settings', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][settings]');
+                            $(this).find('.module-settings').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][settings]');
                             $(this).find('.module-url').attr('name', 'elements[' + main_row_pos + '][main_cols][' + main_col_pos + '][sub_rows][' + sub_row_pos + '][sub_cols][' + sub_col_pos + '][info][module][' + module_pos + '][url]');
 
                             $(this).attr('id', 'element-' + main_row_pos + main_col_pos + sub_row_pos + sub_col_pos + module_pos);

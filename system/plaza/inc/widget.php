@@ -1,21 +1,12 @@
 <?php
 class Widget {
-    private $type;
     private $settings;
     protected $template = '';
 
-    public function __construct($type, $settings = array())
+    public function __construct($settings, $template)
     {
-        $this->type = $type;
         $this->settings = $settings;
-    }
-
-    function setType($type) {
-        $this->type = $type;
-    }
-
-    function getType() {
-        return $this->type;
+        $this->template = $template;
     }
 
     function setSettings($settings) {
@@ -24,6 +15,10 @@ class Widget {
 
     function getSettings() {
         return $this->settings;
+    }
+
+    function setTemplate($template) {
+        $this->template = $template;
     }
 
     function getTemplate() {
