@@ -3,6 +3,7 @@
 $_['heading_title'] = "Plaza Engine";
 $_['heading_dashboard'] = "Plaza Dashboard";
 $_['heading_content_builder'] = "Plaza Content Builder";
+$_['heading_page_layouts'] = "Plaza Page Layouts";
 $_['heading_modules'] = "Plaza Modules";
 
 // Text

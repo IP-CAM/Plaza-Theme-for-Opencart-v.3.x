@@ -9,6 +9,9 @@ class ModelPlazaEngine extends Model
 
         $this->load->model('plaza/content_builder');
         $this->model_plaza_content_builder->setup();
+
+        $this->load->model('plaza/layout');
+        $this->model_plaza_layout->setup();
     }
 
     public function setPermission() {
@@ -44,17 +47,17 @@ class ModelPlazaEngine extends Model
             );
         }
 
-        if ($this->user->hasPermission('access', 'plaza/module')) {
-            $menuItems[] = array(
-                'text' => $this->language->get('text_modules'),
-                'href' => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true),
-            );
-        }
-
         if ($this->user->hasPermission('access', 'plaza/layout')) {
             $menuItems[] = array(
                 'text' => $this->language->get('text_page_layouts'),
                 'href' => $this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'], true),
+            );
+        }
+
+        if ($this->user->hasPermission('access', 'plaza/module')) {
+            $menuItems[] = array(
+                'text' => $this->language->get('text_modules'),
+                'href' => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true),
             );
         }
 
