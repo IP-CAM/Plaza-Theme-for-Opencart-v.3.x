@@ -1,5 +1,6 @@
 <?php
 // Heading
+$_['heading_title'] = "Plaza Engine";
 $_['heading_dashboard'] = "Plaza Dashboard";
 $_['heading_content_builder'] = "Plaza Content Builder";
 $_['heading_modules'] = "Plaza Modules";
@@ -11,6 +12,7 @@ $_['text_plaza_framework'] = "Plaza Framework";
 $_['text_general'] = "General";
 $_['text_content_builder'] = "Content Builder";
 $_['text_modules'] = "Modules";
+$_['text_page_layouts'] = "Page Layouts";
 $_['text_widget_block'] = "HTML Block";
 $_['text_widget_search'] = "Search Form";
 $_['text_widget_minicart'] = "Mini Cart";

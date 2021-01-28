@@ -17,10 +17,12 @@ class ModelPlazaEngine extends Model
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'plaza/engine');
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'plaza/content_builder');
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'plaza/module');
+        $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'plaza/layout');
 
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/engine');
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/content_builder');
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/module');
+        $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/layout');
     }
 
     public function displayMenuFeatures() {
@@ -46,6 +48,13 @@ class ModelPlazaEngine extends Model
             $menuItems[] = array(
                 'text' => $this->language->get('text_modules'),
                 'href' => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true),
+            );
+        }
+
+        if ($this->user->hasPermission('access', 'plaza/layout')) {
+            $menuItems[] = array(
+                'text' => $this->language->get('text_page_layouts'),
+                'href' => $this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'], true),
             );
         }
 
