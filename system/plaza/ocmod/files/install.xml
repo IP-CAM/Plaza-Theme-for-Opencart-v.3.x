@@ -25,9 +25,9 @@
 
     <file path="catalog/controller/common/content_top.php">
         <operation>
-            <search ><![CDATA[return $this->load->view('common/content_top', $data);]]></search>
+            <search ><![CDATA[return $this->load->view("common/content_top", $data);]]></search>
             <add position="before"><![CDATA[
-            $data['content_builder'] = $this->load->controller('plaza/content_builder');
+            $data["content_builder"] = $this->load->controller("plaza/content_builder");
             ]]></add>
         </operation>
     </file>
