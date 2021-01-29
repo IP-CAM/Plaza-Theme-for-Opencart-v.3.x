@@ -7,6 +7,7 @@ $_['heading_page_layouts'] = "Plaza Page Layouts";
 $_['heading_modules'] = "Plaza Modules";
 
 // Text
+$_['text_default'] = "Default";
 $_['text_success'] = "Success: You have modified data!";
 $_['text_plaza_engine'] = "Plaza Engine";
 $_['text_plaza_framework'] = "Plaza Framework";
