@@ -28,7 +28,19 @@ class ModelPlazaLayout extends Model
     public function editLayout($layout_id, $data) {
         $this->db->query("UPDATE " . DB_PREFIX . "layout SET name = '" . $this->db->escape($data['name']) . "' WHERE layout_id = '" . (int)$layout_id . "'");
 
-        $this->db->query("UPDATE " . DB_PREFIX . "plaza_layout_content SET name = '" . $this->db->escape($data['name']) . "', content_id = '" . (int)$data['content_id'] . "' WHERE layout_id = '" . (int)$layout_id . "'");
+        if(isset($data['content_id'])) {
+            $this->db->query("DELETE FROM " . DB_PREFIX . "plaza_layout_content WHERE layout_id = '" . (int)$layout_id . "'");
+
+            $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_layout_content SET layout_id = '" . (int)$layout_id . "', content_id = '" . (int)$data['content_id'] . "'");
+        }
+
+        if (isset($data['layout_route'])) {
+            $this->db->query("DELETE FROM " . DB_PREFIX . "layout_route WHERE layout_id = '" . (int)$layout_id . "'");
+
+            foreach ($data['layout_route'] as $layout_route) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "layout_route SET layout_id = '" . (int)$layout_id . "', store_id = '" . (int)$layout_route['store_id'] . "', route = '" . $this->db->escape($layout_route['route']) . "'");
+            }
+        }
     }
 
     public function deleteLayout($layout_id) {
@@ -82,9 +94,15 @@ class ModelPlazaLayout extends Model
     }
 
     public function getLayoutContent($layout_id) {
-        $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "layout_route WHERE layout_id = '" . (int)$layout_id . "'");
+        $query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "plaza_layout_content WHERE layout_id = '" . (int)$layout_id . "'");
 
         return $query->row;
+    }
+
+    public function getLayoutRoutes($layout_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout_route WHERE layout_id = '" . (int)$layout_id . "'");
+
+        return $query->rows;
     }
 
     public function getTotalLayouts() {

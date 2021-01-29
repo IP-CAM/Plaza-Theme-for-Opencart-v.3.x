@@ -21,6 +21,30 @@ class ControllerPlazaLayout extends Controller
 
         $this->load->model('plaza/layout');
         $this->load->model('plaza/engine');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            $this->model_plaza_layout->addLayout($this->request->post);
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $url = '';
+
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            $this->response->redirect($this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        }
+
+        $this->getForm();
     }
 
     public function edit() {
@@ -30,6 +54,30 @@ class ControllerPlazaLayout extends Controller
 
         $this->load->model('plaza/layout');
         $this->load->model('plaza/engine');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            $this->model_plaza_layout->editLayout($this->request->get['layout_id'], $this->request->post);
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $url = '';
+
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            $this->response->redirect($this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        }
+
+        $this->getForm();
     }
 
     public function delete() {
@@ -162,5 +210,156 @@ class ControllerPlazaLayout extends Controller
         $data['footer'] = $this->load->controller('common/footer');
 
         $this->response->setOutput($this->load->view('plaza/layout/list', $data));
+    }
+
+    protected function getForm() {
+        if (isset($this->error['warning'])) {
+            $data['error_warning'] = $this->error['warning'];
+        } else {
+            $data['error_warning'] = '';
+        }
+
+        if (isset($this->error['name'])) {
+            $data['error_name'] = $this->error['name'];
+        } else {
+            $data['error_name'] = '';
+        }
+
+        $url = '';
+
+        if (isset($this->request->get['sort'])) {
+            $url .= '&sort=' . $this->request->get['sort'];
+        }
+
+        if (isset($this->request->get['order'])) {
+            $url .= '&order=' . $this->request->get['order'];
+        }
+
+        if (isset($this->request->get['page'])) {
+            $url .= '&page=' . $this->request->get['page'];
+        }
+
+        if (!isset($this->request->get['layout_id'])) {
+            $data['action'] = $this->url->link('plaza/layout/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        } else {
+            $data['action'] = $this->url->link('plaza/layout/edit', 'user_token=' . $this->session->data['user_token'] . '&layout_id=' . $this->request->get['layout_id'] . $url, true);
+        }
+
+        $data['cancel'] = $this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'] . $url, true);
+
+        $data['user_token'] = $this->session->data['user_token'];
+
+        if (isset($this->request->get['layout_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+            $layout_info = $this->model_plaza_layout->getLayout($this->request->get['layout_id']);
+        }
+
+        if (isset($this->request->post['name'])) {
+            $data['name'] = $this->request->post['name'];
+        } elseif (!empty($layout_info)) {
+            $data['name'] = $layout_info['name'];
+        } else {
+            $data['name'] = '';
+        }
+
+        $data['layout_content'] = array();
+
+        $this->load->model('plaza/content_builder');
+
+        $layout_contents = $this->model_plaza_content_builder->getContents();
+        foreach ($layout_contents as $content) {
+            $data['layout_content'][] = array(
+                'id' => $content['content_id'],
+                'name' => $content['name']
+            );
+        }
+
+        if (isset($this->request->post['content_id'])) {
+            $data['content_id'] = $this->request->post['content_id'];
+        } elseif (isset($this->request->get['layout_id'])) {
+            $layout_content = $this->model_plaza_layout->getLayoutContent($this->request->get['layout_id']);
+
+            if(!empty($layout_content['content_id'])) {
+                $data['content_id'] = $layout_content['content_id'];
+            } else {
+                $data['content_id'] = 0;
+            }
+        } else {
+            $data['content_id'] = 0;
+        }
+
+        $this->load->model('setting/store');
+
+        $data['stores'] = $this->model_setting_store->getStores();
+
+        if (isset($this->request->post['layout_route'])) {
+            $data['layout_routes'] = $this->request->post['layout_route'];
+        } elseif (isset($this->request->get['layout_id'])) {
+            $data['layout_routes'] = $this->model_plaza_layout->getLayoutRoutes($this->request->get['layout_id']);
+        } else {
+            $data['layout_routes'] = array();
+        }
+
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+
+        $this->response->setOutput($this->load->view('plaza/layout/form', $data));
+    }
+
+    protected function validateForm() {
+        if (!$this->user->hasPermission('modify', 'plaza/layout')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
+
+        if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 64)) {
+            $this->error['name'] = $this->language->get('error_name');
+        }
+
+        return !$this->error;
+    }
+
+    protected function validateDelete() {
+        if (!$this->user->hasPermission('modify', 'plaza/layout')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
+
+        $this->load->model('setting/store');
+        $this->load->model('catalog/product');
+        $this->load->model('catalog/category');
+        $this->load->model('catalog/information');
+
+        foreach ($this->request->post['selected'] as $layout_id) {
+            if ($this->config->get('config_layout_id') == $layout_id) {
+                $this->error['warning'] = $this->language->get('error_layout_default');
+            }
+
+            $store_total = $this->model_setting_store->getTotalStoresByLayoutId($layout_id);
+
+            if ($store_total) {
+                $this->error['warning'] = sprintf($this->language->get('error_layout_store'), $store_total);
+            }
+
+            $product_total = $this->model_catalog_product->getTotalProductsByLayoutId($layout_id);
+
+            if ($product_total) {
+                $this->error['warning'] = sprintf($this->language->get('error_layout_product'), $product_total);
+            }
+
+            $category_total = $this->model_catalog_category->getTotalCategoriesByLayoutId($layout_id);
+
+            if ($category_total) {
+                $this->error['warning'] = sprintf($this->language->get('error_layout_category'), $category_total);
+            }
+
+            $information_total = $this->model_catalog_information->getTotalInformationsByLayoutId($layout_id);
+
+            if ($information_total) {
+                $this->error['warning'] = sprintf($this->language->get('error_layout_information'), $information_total);
+            }
+        }
+
+        return !$this->error;
     }
 }

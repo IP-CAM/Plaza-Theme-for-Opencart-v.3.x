@@ -38,6 +38,7 @@ $_['text_behind_icon'] = "Behind Icon";
 $_['text_left_side'] = "Left Side";
 $_['text_right_side'] = "Right Side";
 $_['text_center_popup'] = "Center Popup";
+$_['text_choose_layout_content'] = "-- Choose Layout Content --";
 
 // Column
 $_['column_name'] = "Name";
@@ -52,6 +53,9 @@ $_['tab_modules'] = "Modules";
 $_['entry_name'] = "Name";
 $_['entry_status'] = "Status";
 $_['entry_sort_order'] = "Sort Order";
+$_['entry_store'] = "Store";
+$_['entry_route'] = "Route";
+$_['entry_layout_content'] = "Layout Content";
 
 // Button
 
@@ -60,3 +64,8 @@ $_['error_warning']          = 'Warning: Please check the form carefully for err
 $_['error_permission']       = 'Warning: You do not have permission to modify data!';
 $_['error_name']             = 'Name must be greater than 1 and less than 255 characters!';
 $_['error_cannot_load_widget'] = 'Can\'t load widget form!';
+$_['error_layout_default']       = 'Warning: This layout cannot be deleted as it is currently assigned as the default store layout!';
+$_['error_layout_store']         = 'Warning: This layout cannot be deleted as it is currently assigned to %s stores!';
+$_['error_layout_product']       = 'Warning: This layout cannot be deleted as it is currently assigned to %s products!';
+$_['error_layout_category']      = 'Warning: This layout cannot be deleted as it is currently assigned to %s categories!';
+$_['error_layout_information']   = 'Warning: This layout cannot be deleted as it is currently assigned to %s information pages!';
