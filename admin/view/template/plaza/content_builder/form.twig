@@ -7,7 +7,7 @@
             </div>
             <ul class="menu-items">
                 {% for item in menu_items %}
-                    <li><a href="{{ item.href }}">{{ item.text }}</a></li>
+                    <li><a class="{{ item.class }}" href="{{ item.href }}">{{ item.text }}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -327,8 +327,8 @@
                         </div>
                     </div>
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-widgets" data-toggle="tab">{{ tab_widgets }}</a></li>
-                        <li><a href="#tab-modules" data-toggle="tab">{{ tab_modules }}</a></li>
+                        <li class="active"><a href="#tab-widgets" data-toggle="tab"><i class="fa fa-puzzle-piece"></i> {{ tab_widgets }}</a></li>
+                        <li><a href="#tab-modules" data-toggle="tab"><i class="fa fa-plug"></i> {{ tab_modules }}</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active widgets-container" id="tab-widgets">

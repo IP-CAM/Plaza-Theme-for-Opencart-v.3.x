@@ -28,7 +28,7 @@ class ModelPlazaEngine extends Model
         $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'plaza/layout');
     }
 
-    public function displayMenuFeatures() {
+    public function displayMenuFeatures($route = "") {
         $this->load->language('plaza/engine');
 
         $menuItems = array();
@@ -37,6 +37,7 @@ class ModelPlazaEngine extends Model
             $menuItems[] = array(
                 'text' => $this->language->get('text_general'),
                 'href' => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true),
+                'class' => $route == 'engine' ? 'active' : ''
             );
         }
 
@@ -44,6 +45,7 @@ class ModelPlazaEngine extends Model
             $menuItems[] = array(
                 'text' => $this->language->get('text_content_builder'),
                 'href' => $this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'], true),
+                'class' => $route == 'content_builder' ? 'active' : ''
             );
         }
 
@@ -51,6 +53,7 @@ class ModelPlazaEngine extends Model
             $menuItems[] = array(
                 'text' => $this->language->get('text_page_layouts'),
                 'href' => $this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'], true),
+                'class' => $route == 'layout' ? 'active' : ''
             );
         }
 
@@ -58,6 +61,7 @@ class ModelPlazaEngine extends Model
             $menuItems[] = array(
                 'text' => $this->language->get('text_modules'),
                 'href' => $this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true),
+                'class' => $route == 'module' ? 'active' : ''
             );
         }
 

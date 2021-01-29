@@ -47,8 +47,8 @@
     position: relative;
     display: block;
 }
-.section-plaza-engine ul.menu-items li a {padding: 13px;display: block;font-size: 15px;color: #FFF;background: #e3503e;}
-.section-plaza-engine ul.menu-items li a.active, .section-plaza-engine ul.menu-items li a:hover {background: #901000;}
+.section-plaza-engine ul.menu-items li a {padding: 13px;display: block;font-size: 15px;color: #FFF;background: #e3503e;border-right: 1px solid #c53523;}
+.section-plaza-engine ul.menu-items li a.active, .section-plaza-engine ul.menu-items li a:hover {background: #901000;border-right: 1px solid #901000;}
 .header-engine {
     display: block;
     overflow: auto;

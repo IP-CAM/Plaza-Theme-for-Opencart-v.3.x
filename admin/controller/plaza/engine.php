@@ -22,7 +22,7 @@ class ControllerPlazaEngine extends Controller
             'href' => $this->url->link('plaza/engine', 'user_token=' . $this->session->data['user_token'], true)
         );
 
-        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('engine');
 
         $data['menu'][] = array(
             'text' => $this->language->get('text_general'),

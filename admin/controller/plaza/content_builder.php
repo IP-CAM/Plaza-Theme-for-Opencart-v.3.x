@@ -256,7 +256,7 @@ class ControllerPlazaContentBuilder extends Controller
         $data['sort'] = $sort;
         $data['order'] = $order;
 
-        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('content_builder');
 
         $this->document->addStyle('view/stylesheet/plaza/engine.css');
         $this->document->addScript('view/javascript/plaza/engine.js');
@@ -347,7 +347,7 @@ class ControllerPlazaContentBuilder extends Controller
 
 //        var_dump($data['elements']);die;
 
-        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('content_builder');
 
         $data['extensions'] = $this->getExtensions();
 

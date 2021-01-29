@@ -230,7 +230,7 @@ class ControllerPlazaLayout extends Controller
         $data['sort'] = $sort;
         $data['order'] = $order;
 
-        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('layout');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
@@ -326,7 +326,7 @@ class ControllerPlazaLayout extends Controller
             $data['layout_routes'] = array();
         }
 
-        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('layout');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');

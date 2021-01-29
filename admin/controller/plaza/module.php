@@ -98,7 +98,7 @@ class ControllerPlazaModule extends Controller
 
         $this->load->language('plaza/engine');
 
-        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures();
+        $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('module');
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
