@@ -87,6 +87,33 @@ class ControllerPlazaLayout extends Controller
 
         $this->load->model('plaza/layout');
         $this->load->model('plaza/engine');
+
+        if (isset($this->request->post['selected']) && $this->validateDelete()) {
+            foreach ($this->request->post['selected'] as $layout_id) {
+                $this->model_plaza_layout->deleteLayout($layout_id);
+            }
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $url = '';
+
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            $this->response->redirect($this->url->link('plaza/layout', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        }
+
+        $this->getList();
+
     }
 
     protected function getList() {

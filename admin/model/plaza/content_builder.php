@@ -2,7 +2,7 @@
 class ModelPlazaContentBuilder extends Model
 {
     public function addContent($data) {
-        $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "', elements = '" . $this->db->escape($data['elements']) . "'");
+        $this->db->query("INSERT INTO " . DB_PREFIX . "plaza_content SET status = '" . (int)$data['status'] . "', sort_order = '" . (int)$data['sort_order'] . "', elements = '" . serialize($data['elements']) . "'");
 
         $content_id = $this->db->getLastId();
 

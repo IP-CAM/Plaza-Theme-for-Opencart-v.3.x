@@ -84,7 +84,40 @@ class ControllerPlazaContentBuilder extends Controller
         $this->getForm();
     }
 
-    public function delete() {}
+    public function delete() {
+        $this->load->language('plaza/engine');
+
+        $this->document->setTitle($this->language->get('heading_content_builder'));
+
+        $this->load->model('plaza/engine');
+        $this->load->model('plaza/content_builder');
+
+        if (isset($this->request->post['selected']) && $this->validateDelete()) {
+            foreach ($this->request->post['selected'] as $content_id) {
+                $this->model_plaza_content_builder->deleteContent($content_id);
+            }
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $url = '';
+
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+
+            $this->response->redirect($this->url->link('plaza/content_builder', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        }
+
+        $this->getList();
+    }
 
     public function getList() {
         $data = array();
@@ -464,6 +497,14 @@ class ControllerPlazaContentBuilder extends Controller
 
         if ($this->error && !isset($this->error['warning'])) {
             $this->error['warning'] = $this->language->get('error_warning');
+        }
+
+        return !$this->error;
+    }
+
+    protected function validateDelete() {
+        if (!$this->user->hasPermission('modify', 'plaza/content_builder')) {
+            $this->error['warning'] = $this->language->get('error_permission');
         }
 
         return !$this->error;
