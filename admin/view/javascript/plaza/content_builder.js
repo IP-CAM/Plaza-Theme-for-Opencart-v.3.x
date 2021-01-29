@@ -599,7 +599,7 @@ var builder = {
         html += '	<input type="hidden" class="module-in-main-col" value="' + col_pos +'" />';
         html += '	<input type="hidden" class="module-in-sub-row" value="' + sub_row_pos +'" />';
         html += '	<input type="hidden" class="module-in-sub-col" value="' + sub_col_pos +'" />';
-        html += '	<input type="hidden" class="module-code" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][code]" value="' + widget +'" />';
+        html += '	<input type="hidden" class="module-code" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][code]" value="widget" />';
         html += '	<input type="hidden" class="module-name" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][name]" value="' + widget +'" />';
         html += '	<input type="hidden" class="module-settings" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][settings]" value=\'' + settings + '\' />';
         html += '	<input type="hidden" class="module-url" name="elements['+ row_pos + '][main_cols]['+ col_pos +'][sub_rows]['+ sub_row_pos +'][sub_cols]['+ sub_col_pos +'][info][module][0][url]" value=\'' + url + '\' />';

@@ -41,6 +41,14 @@ class ModelPlazaLayout extends Model
                 $this->db->query("INSERT INTO " . DB_PREFIX . "layout_route SET layout_id = '" . (int)$layout_id . "', store_id = '" . (int)$layout_route['store_id'] . "', route = '" . $this->db->escape($layout_route['route']) . "'");
             }
         }
+
+        if (isset($data['layout_module'])) {
+            $this->db->query("DELETE FROM " . DB_PREFIX . "layout_module WHERE layout_id = '" . (int)$layout_id . "'");
+
+            foreach ($data['layout_module'] as $layout_module) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "layout_module SET layout_id = '" . (int)$layout_id . "', code = '" . $this->db->escape($layout_module['code']) . "', position = '" . $this->db->escape($layout_module['position']) . "', sort_order = '" . (int)$layout_module['sort_order'] . "'");
+            }
+        }
     }
 
     public function deleteLayout($layout_id) {
@@ -101,6 +109,12 @@ class ModelPlazaLayout extends Model
 
     public function getLayoutRoutes($layout_id) {
         $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout_route WHERE layout_id = '" . (int)$layout_id . "'");
+
+        return $query->rows;
+    }
+
+    public function getLayoutModules($layout_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "layout_module WHERE layout_id = '" . (int)$layout_id . "' ORDER BY position ASC, sort_order ASC");
 
         return $query->rows;
     }

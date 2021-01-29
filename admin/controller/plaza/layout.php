@@ -326,6 +326,81 @@ class ControllerPlazaLayout extends Controller
             $data['layout_routes'] = array();
         }
 
+        $this->load->model('setting/extension');
+
+        $this->load->model('setting/module');
+
+        $data['extensions'] = array();
+
+        // Get a list of installed modules
+        $extensions = $this->model_setting_extension->getInstalled('module');
+
+        // Add all the modules which have multiple settings for each module
+        foreach ($extensions as $code) {
+            $this->load->language('extension/module/' . $code, 'extension');
+
+            $module_data = array();
+
+            $modules = $this->model_setting_module->getModulesByCode($code);
+
+            foreach ($modules as $module) {
+                $module_data[] = array(
+                    'name' => strip_tags($module['name']),
+                    'code' => $code . '.' .  $module['module_id']
+                );
+            }
+
+            if ($this->config->has('module_' . $code . '_status') || $module_data) {
+                $data['extensions'][] = array(
+                    'name'   => strip_tags($this->language->get('extension')->get('heading_title')),
+                    'code'   => $code,
+                    'module' => $module_data
+                );
+            }
+        }
+
+        // Modules layout
+        if (isset($this->request->post['layout_module'])) {
+            $layout_modules = $this->request->post['layout_module'];
+        } elseif (isset($this->request->get['layout_id'])) {
+            $layout_modules = $this->model_plaza_layout->getLayoutModules($this->request->get['layout_id']);
+        } else {
+            $layout_modules = array();
+        }
+
+        $data['layout_modules'] = array();
+
+        // Add all the modules which have multiple settings for each module
+        foreach ($layout_modules as $layout_module) {
+            $part = explode('.', $layout_module['code']);
+
+            $this->load->language('extension/module/' . $part[0]);
+
+            if (!isset($part[1])) {
+                $data['layout_modules'][] = array(
+                    'name'       => strip_tags($this->language->get('heading_title')),
+                    'code'       => $layout_module['code'],
+                    'edit'       => $this->url->link('extension/module/' . $part[0], 'user_token=' . $this->session->data['user_token'], true),
+                    'position'   => $layout_module['position'],
+                    'sort_order' => $layout_module['sort_order']
+                );
+            } else {
+                $module_info = $this->model_setting_module->getModule($part[1]);
+
+                if ($module_info) {
+                    $data['layout_modules'][] = array(
+                        'name'       => strip_tags($module_info['name']),
+                        'code'       => $layout_module['code'],
+                        'edit'       => $this->url->link('extension/module/' . $part[0], 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $part[1], true),
+                        'position'   => $layout_module['position'],
+                        'sort_order' => $layout_module['sort_order']
+                    );
+                }
+            }
+        }
+
+        $this->load->language('plaza/engine');
+
         $data['menu_items'] = $this->model_plaza_engine->displayMenuFeatures('layout');
 
         $data['header'] = $this->load->controller('common/header');

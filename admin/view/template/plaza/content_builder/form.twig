@@ -148,11 +148,10 @@
                                                                                                     {% endif %}
                                                                                                 {% endfor %}
                                                                                                 {% for widget in widgets %}
-                                                                                                    {% if module.code == widget.code %}
+                                                                                                    {% if module.name == widget.name %}
                                                                                                         {% set module_name = widget.title %}
                                                                                                         {% set module_url = widget.url %}
                                                                                                         {% set module_code = widget.code %}
-
                                                                                                     {% endif %}
                                                                                                 {% endfor %}
                                                                                                 <div class="layout-module-info moveable" id="element-{{ elements_row }}{{ main_col_count }}{{ elements_sub_row }}{{ sub_col_count }}">

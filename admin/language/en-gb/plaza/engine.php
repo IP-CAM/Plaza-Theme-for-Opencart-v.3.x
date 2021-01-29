@@ -40,6 +40,12 @@ $_['text_left_side'] = "Left Side";
 $_['text_right_side'] = "Right Side";
 $_['text_center_popup'] = "Center Popup";
 $_['text_choose_layout_content'] = "-- Choose Layout Content --";
+$_['text_layout_route'] = "Choose the store and routes to be used with this layout";
+$_['text_layout_module'] = "Choose the position of the modules";
+$_['text_content_top'] = "Content Top";
+$_['text_content_bottom'] = "Content Bottom";
+$_['text_column_left'] = "Column Left";
+$_['text_column_right'] = "Column Right";
 
 // Column
 $_['column_name'] = "Name";

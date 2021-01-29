@@ -379,12 +379,13 @@ class ControllerPlazaContentBuilder extends Controller
             return basename( $item, ".php" );
         }, glob(self::PATH_WIDGETS_FILES) );
 
-        foreach ($widgetsFiles as $file) {
-            $data['title'] = $this->language->get('text_widget_' . $file);
+        foreach ($widgetsFiles as $widget) {
+            $data['title'] = $this->language->get('text_widget_' . $widget);
             $widgets[] = array(
                 'title' => $data['title'],
-                'code' => $file,
-                'url' => $this->url->link('plaza/content_builder/showWidgetForm' , 'user_token=' . $this->session->data['user_token'] . '&widget=' . $file, true)
+                'name' => $widget,
+                'code' => 'widget',
+                'url' => $this->url->link('plaza/content_builder/showWidgetForm' , 'user_token=' . $this->session->data['user_token'] . '&widget=' . $widget, true)
             );
         }
 
