@@ -551,7 +551,7 @@ var builder = {
         })
     },
 
-    'submitWidget' : function(name, url, settings) {
+    'submitWidget' : function(name, url, settings, title) {
         url = url.replace("&amp;", "&");
         $.ajax({
             url: url,
@@ -565,7 +565,7 @@ var builder = {
                 let url = json['url'] + "&" + settings_param;
 
                 if(state === "add") {
-                    builder.addWidget(widget, url, settings_param);
+                    builder.addWidget(widget, url, settings_param, title);
                 }
 
                 if(state === "update") {
@@ -578,7 +578,7 @@ var builder = {
         })
     },
 
-    'addWidget': function(widget, url, settings) {
+    'addWidget': function(widget, url, settings, title) {
         url = url.replace("&amp;", "&");
         var row_pos =  $('#module-row').val();
         var col_pos =  $('#module-col').val();
@@ -588,7 +588,7 @@ var builder = {
         html = '<div class="layout-module-info moveable">';
         html += '	<div class="top">';
         html += '		<div class="module-info">';
-        html += '			<p>' + widget + '</p>';
+        html += '			<p>' + title + '</p>';
         html += '		</div>';
         html += '		<div class="module-action">';
         html += '		    <a class="a-module-edit" href="javascript:void(0);" onclick="builder.showWidgetForm(\'' + widget + '\', \'' + url + '\', \'update\', $(this))"><i class="fa fa-pencil"></i></a>';

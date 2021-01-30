@@ -8,17 +8,19 @@ foreach ($files as $file) {
 class ControllerPlazaWidget extends Controller
 {
     public function index($data) {
-        $widget = array();
+        $widgetHTML = '';
         if(!empty($data)) {
             $type = $data['type'];
             $settings = $data['settings'];
 
             $widget = $this->getWidget($type, $settings);
+
+            if(!empty($widget)) {
+                $widgetHTML = $this->load->controller('plaza/widget/' . $type, $widget);
+            }
         }
 
-        if(!empty($widget)) {
-            return $this->load->view('plaza/widget/' . $widget->getTemplate(), $widget->getSettings());
-        }
+        return $widgetHTML;
     }
 
     public function getWidget($type, $settings) {

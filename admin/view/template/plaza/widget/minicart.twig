@@ -1,4 +1,4 @@
-<div class="title-section">{{ text_widget_cart }}</div>
+<div class="title-section">{{ text_widget_minicart }}</div>
 <div class="container-fluid">
     <form class="form-horizontal" id="frm-widget">
         <input type="hidden" name="widget" value="{{ widget }}" />
@@ -18,7 +18,7 @@
         <div class="form-group">
             <div class="col-sm-3"></div>
             <div class="col-sm-3">
-                <button type="button" onclick="builder.submitWidget('{{ widget }}', '{{ convert_url }}', $('#frm-widget').serialize())" class="btn btn-primary">Save Changes</button>
+                <button type="button" onclick="builder.submitWidget('{{ widget }}', '{{ convert_url }}', $('#frm-widget').serialize(), '{{ text_widget_minicart }}')" class="btn btn-primary">Save Changes</button>
             </div>
         </div>
     </form>
