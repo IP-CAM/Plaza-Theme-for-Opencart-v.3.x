@@ -107,13 +107,86 @@ class ControllerPlazaModule extends Controller
         $this->response->setOutput($this->load->view('plaza/module/list', $data));
     }
 
-    public function install() {}
+    public function install() {
+        $this->load->language('plaza/engine');
 
-    public function uninstall() {}
+        $this->load->model('setting/extension');
 
-    public function add() {}
+        $this->load->model('setting/module');
 
-    public function delete() {}
+        if ($this->validate()) {
+            $this->model_setting_extension->install('module', $this->request->get['extension']);
+
+            $this->load->model('user/user_group');
+
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/module/' . $this->request->get['extension']);
+            $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/module/' . $this->request->get['extension']);
+
+            // Call install method if it exsits
+            $this->load->controller('extension/module/' . $this->request->get['extension'] . '/install');
+
+            $this->session->data['success'] = $this->language->get('text_success');
+        } else {
+            $this->session->data['error'] = $this->error['warning'];
+        }
+
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
+    }
+
+    public function uninstall() {
+        $this->load->language('plaza/engine');
+
+        $this->load->model('setting/extension');
+
+        $this->load->model('setting/module');
+
+        if ($this->validate()) {
+            $this->model_setting_extension->uninstall('module', $this->request->get['extension']);
+
+            $this->model_setting_module->deleteModulesByCode($this->request->get['extension']);
+
+            // Call uninstall method if it exsits
+            $this->load->controller('extension/module/' . $this->request->get['extension'] . '/uninstall');
+
+            $this->session->data['success'] = $this->language->get('text_success');
+        }
+
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
+    }
+
+    public function add() {
+        $this->load->language('plaza/engine');
+
+        $this->load->model('setting/extension');
+
+        $this->load->model('setting/module');
+
+        if ($this->validate()) {
+            $this->load->language('module' . '/' . $this->request->get['extension']);
+
+            $this->model_setting_module->addModule($this->request->get['extension'], $this->language->get('heading_title'));
+
+            $this->session->data['success'] = $this->language->get('text_success');
+        }
+
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
+    }
+
+    public function delete() {
+        $this->load->language('plaza/engine');
+
+        $this->load->model('setting/extension');
+
+        $this->load->model('setting/module');
+
+        if (isset($this->request->get['module_id']) && $this->validate()) {
+            $this->model_setting_module->deleteModule($this->request->get['module_id']);
+
+            $this->session->data['success'] = $this->language->get('text_success');
+        }
+
+        $this->response->redirect($this->url->link('plaza/module', 'user_token=' . $this->session->data['user_token'], true));
+    }
 
     protected function validate() {
         if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
