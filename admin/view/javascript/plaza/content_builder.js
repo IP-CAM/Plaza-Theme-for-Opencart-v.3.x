@@ -614,7 +614,7 @@ var builder = {
     'updateWidget': function(widget, url, settings, module_id) {
         url = url.replace("&amp;", "&");
         var element = $("#" + module_id);
-        element.find(".module-code").val(widget);
+        element.find(".module-code").val("widget");
         element.find(".module-name").val(widget);
         element.find(".module-settings").val(settings);
         element.find(".module-url").val(url);

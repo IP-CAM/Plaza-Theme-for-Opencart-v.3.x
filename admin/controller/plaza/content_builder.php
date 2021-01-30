@@ -5,7 +5,7 @@ class ControllerPlazaContentBuilder extends Controller
 {
     private $error = array();
 
-    const PATH_WIDGETS_FILES = DIR_SYSTEM . 'plaza/inc/widgets/*.php';
+    const PATH_WIDGETS_FILES = DIR_SYSTEM . 'plaza/inc/widget/*.php';
 
     public function index() {
         $this->load->language('plaza/engine');
