@@ -54,8 +54,6 @@ class ControllerPlazaContentBuilder extends Controller
 
 //        var_dump($data['elements']);die;
 
-
-
         return $this->load->view('plaza/builder/content', $data);
     }
 
@@ -79,7 +77,12 @@ class ControllerPlazaContentBuilder extends Controller
                                     $module_in_col = array();
                                     foreach ($modules as $module) {
                                         if($module['code'] == "widget") {
-                                            // Code to show widget
+                                            $params = array(
+                                                'type' => $module['name'],
+                                                'settings' => $module['settings']
+                                            );
+
+                                            $module_in_col[] = $this->load->controller('plaza/widget', $params);
                                         } else {
                                             $part = explode('.', $module['code']);
 
